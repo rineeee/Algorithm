@@ -1,0 +1,5 @@
+def solution(s):
+    arr = s.lower()
+    if arr.count('p') == arr.count('y'):
+        return True
+    return False
