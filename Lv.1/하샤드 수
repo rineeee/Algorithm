@@ -1,0 +1,7 @@
+def solution(x):
+    a=0
+    for i in map(int, str(x)):
+        a+= i
+    if(x % a == 0):
+        return True
+    return False
