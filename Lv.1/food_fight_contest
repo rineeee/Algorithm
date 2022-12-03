@@ -1,0 +1,7 @@
+def solution(food):
+    answer =''
+    for idx,val in enumerate(food):
+        if val//2 != 0:
+            answer += str(idx)*(val//2)
+    answer = answer + "0" + answer[::-1]
+    return answer
