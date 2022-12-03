@@ -8,7 +8,6 @@
 
 ### 순서
 
-- [01. level1](https://github.com/namjunemy/TIL/blob/master/Algorithm/analysis_of_algorithms.md)
-
+- 01. level1
 
 
