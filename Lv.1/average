@@ -1,0 +1,3 @@
+def solution(arr):
+    sum_arr = sum(i for i in arr)
+    return sum_arr/len(arr)
