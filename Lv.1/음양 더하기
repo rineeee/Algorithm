@@ -1,0 +1,8 @@
+def solution(absolutes, signs):
+    answer = 0
+    for absolute,sign in list(zip(absolutes,signs)):
+        if sign == True:
+            answer += absolute
+        if sign == False:
+            answer -= absolute
+    return answer
