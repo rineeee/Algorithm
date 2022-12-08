@@ -1,0 +1,11 @@
+def solution(s):
+    answer = ""
+    a = s.split(" ")  
+    for j in a:
+        for i in range(len(j)):
+            if i % 2 == 0:
+                answer += j[i].upper()
+            elif i % 2 == 1:
+                answer += j[i].lower()
+        answer += " "
+    return answer[:-1]
