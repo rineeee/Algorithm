@@ -1,0 +1,10 @@
+from itertools import combinations
+def solution(nums):
+    num = 0
+    for i in list(combinations((set(nums)),3)):
+        for j in range(2, int(sum(i) **(0.5) + 1)):
+            if (sum(i) % j) == 0:
+                break;
+        else:
+            num += 1
+    return num
