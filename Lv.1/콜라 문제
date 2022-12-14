@@ -1,0 +1,9 @@
+def solution(a, b, n):
+    answer = 0
+    while True:
+        if (n < a):
+            break;
+        temp = n-n%a
+        answer += (temp/a)*b
+        n = n-temp+((temp/a)*b) 
+    return answer
