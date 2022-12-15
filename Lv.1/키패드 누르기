@@ -1,0 +1,33 @@
+def solution(numbers, hand):
+    answer = ''
+    L = [3,0]
+    R = [3,2]
+    number = {1: [0,0], 2:[0,1], 3:[0,2], 4:[1,0],5 :[1,1],
+             6:[1,2],7:[2,0],8:[2,1],9:[2,2],0:[3,1]}
+    forL = set([1,4,7])
+    forR = set([3,6,9])
+    for i in numbers:
+        if i in forL:
+            L = number[i]
+            answer += "L"
+        elif i in forR:
+            R = number[i]
+            answer += "R"
+        else:
+            temp = number[i]
+            Ltemp = abs(L[0] - temp[0]) + abs(L[1] - temp[1])
+            Rtemp = abs(R[0] - temp[0]) + abs(R[1] - temp[1])
+            if Ltemp < Rtemp:
+                L = temp
+                answer += "L"
+            elif Ltemp > Rtemp:
+                R = temp
+                answer += "R"
+            else:
+                if hand == "right":
+                    R = temp
+                    answer += "R"
+                else:
+                    L = temp
+                    answer += "L"
+    return answer
