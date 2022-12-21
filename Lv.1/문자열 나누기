@@ -1,0 +1,21 @@
+def solution(s):
+    answer = 0
+    an = ""
+    num = 0
+    num_dif = 0
+    for i in s:
+        if an == "":
+            an = i
+            num += 1
+        elif an == i:
+            num += 1
+        elif an != i:
+            num_dif += 1
+            if num == num_dif:
+                an = ""
+                num = 0
+                num_dif = 0
+                answer += 1
+    if (an !="") | (num!=0) | (num_dif !=0) :
+        answer += 1
+    return answer
