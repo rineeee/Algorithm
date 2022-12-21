@@ -1,0 +1,7 @@
+def solution(s):
+    answer = s.split(" ")
+    for i in range(len(answer)):
+        answer[i] = int(answer[i])
+    min1 = min(answer)
+    max1 = max(answer)
+    return f"{min1} {max1}"
