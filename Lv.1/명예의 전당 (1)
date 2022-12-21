@@ -1,0 +1,10 @@
+def solution(k, score):
+    glory = []
+    answer = []
+    for i in score:
+        glory.append(i)
+        if(len(glory) > k):
+            glory = sorted(glory, reverse= True)
+            glory.pop()
+        answer.append(min(glory))
+    return answer
