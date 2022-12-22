@@ -1,0 +1,12 @@
+def solution(s):
+    a = []
+    for i in s:
+        if i == "(":
+            a.append(i)
+        else:
+            if not a:
+                return False
+            a.pop()
+    if len(a) == 0:
+        return True
+    return False
