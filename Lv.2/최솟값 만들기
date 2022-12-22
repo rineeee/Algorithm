@@ -1,0 +1,9 @@
+def solution(A,B):
+    answer = 0
+
+    a = sorted(A, reverse=True)
+    b = sorted(B)
+    for i,j in zip(a,b):
+        answer += i*j
+
+    return answer
