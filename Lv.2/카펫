@@ -1,0 +1,8 @@
+def solution(brown, yellow):
+    a = (brown - 4) // 2
+    for i in range(1, int(yellow**0.5)+1):
+        if yellow % i == 0:
+            if (i) + (yellow//i) == a:
+                c = i + 2
+                d = yellow//i +2
+                return [max(c,d),min(c,d)]
