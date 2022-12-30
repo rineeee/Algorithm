@@ -1,0 +1,18 @@
+import math
+def solution(progresses, speeds):
+    temp = []
+    answer = [0]
+    for i,j in zip(progresses,speeds):
+        a = math.ceil((100-i)/j)
+        temp.append(a)
+    time = 0
+    for i in temp:
+        if time == 0 :
+            time = i
+        if time >= i:
+            an_temp = answer.pop()
+            answer.append(1 + an_temp)
+        else:
+            time = i
+            answer.append(1)
+    return answer
