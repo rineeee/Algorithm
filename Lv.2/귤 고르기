@@ -1,0 +1,11 @@
+from collections import Counter
+def solution(k, tangerine):
+    answer = 0
+    num = 0 
+    count = Counter(tangerine).most_common()
+    for i,j in count:
+        num += j
+        answer += 1
+        if num >= k :
+            break
+    return answer
