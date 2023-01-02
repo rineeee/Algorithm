@@ -1,0 +1,22 @@
+import math
+def solution(fees, records):
+    answer = []
+    record = {}
+    for i in records:
+        split_record = i.split(" ")
+        if split_record[1] not in record:
+            hour, minute = split_record[0].split(":")
+            record[split_record[1]] = [int(hour) * 60 + int(minute)]
+        else:
+            hour, minute = split_record[0].split(":")
+            record[split_record[1]].append(int(hour) * 60 + int(minute))
+    record = sorted(record.items())
+    
+    for _,i in record:
+        if len(i) % 2 !=0:
+            i.append(23*60+59)
+        time = 0
+        for j in range(0,len(i),2):
+            time += i[j+1] - i[j]
+        answer.append(fees[1] + math.ceil(max(0, (time - fees[0])) / fees[2]) * fees[3])
+    return answer
