@@ -1,0 +1,22 @@
+def solution(record):
+    answer = []
+    id = {}
+    temp = []
+    
+    for i in record:
+        re = i.split(" ")
+        if re[0] == "Enter":
+            temp.append(re[1]+" in")
+            id[re[1]] = re[2]
+        if re[0] == "Leave":
+            temp.append(re[1]+" out")
+        if re[0] == "Change":
+            id[re[1]] = re[2]
+    for i in temp:
+        split_ = i.split(" ")
+        if split_[1] == "in":
+            answer.append(id[split_[0]]+"님이 들어왔습니다.")
+        else:
+            answer.append(id[split_[0]]+"님이 나갔습니다.")
+    
+    return answer
