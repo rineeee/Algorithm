@@ -1,0 +1,21 @@
+import string
+
+tmp = string.digits+string.ascii_uppercase
+def convert(num, base) :
+    q, r = divmod(num, base)
+    if q == 0 :
+        return tmp[r] 
+    else :
+        return convert(q, base) + tmp[r]
+    
+def solution(n, t, m, p):
+    answer = ''
+    temp = ""
+    num = 0
+    while len(temp) <= t*m -1 :
+        convert_num = convert(num,n)
+        temp += convert_num
+        num += 1
+    for i in range(p-1, t*m, m):
+        answer += temp[i]
+    return answer
