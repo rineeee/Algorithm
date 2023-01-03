@@ -1,0 +1,8 @@
+import re
+def solution(skill, skill_trees):
+    answer = 0
+    for i in skill_trees:
+        st = re.sub('[^' + skill +']', '', i)
+        if st == skill[:len(st)]:
+            answer += 1
+    return answer
