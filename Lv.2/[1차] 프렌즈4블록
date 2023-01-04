@@ -1,0 +1,30 @@
+def solution(m, n, board):
+    answer = 0
+    for i in range(m):
+        board[i] = list(board[i])
+        
+    while True:
+        dic = {}
+        for i in range(m):
+            for j in range(n):
+                if (i <= m - 2) and (j <= n - 2) and (board[i][j] == board[i][j+1] == board[i+1][j] == board[i+1][j+1] != "#"):
+                        dic[(i,j)] = 1
+                        dic[(i,j+1)] = 1
+                        dic[(i+1,j)] = 1
+                        dic[(i+1,j+1)] = 1
+        if len(dic) == 0:
+            break              
+        answer += len(dic)
+        
+        for i, j in dic.keys():
+            board[i][j] = "#"
+        for i in range(m-1,-1,-1):
+            for j in range(n):
+                if board[i][j] == "#":
+                    for k in range(i-1, -1, -1):
+                        if board[k][j] !="#":
+                            board[i][j] = board[k][j]
+                            board[k][j] = "#"  
+                            break
+                
+    return answer
