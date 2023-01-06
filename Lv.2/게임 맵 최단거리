@@ -10,15 +10,15 @@ def solution(maps):
     dy = [0, 0, -1, 1]
     visited[0][0]=True
     while q:
-        y, x = q.popleft()
+        x, y = q.popleft()
         for i in range(4):
             nx=x+dx[i]
             ny=y+dy[i]
-            if 0<=nx<m and 0<=ny<n and maps[ny][nx] == 1:
-                if not visited[ny][nx]:
-                    visited[ny][nx] = True
-                    q.append((ny, nx))
-                    maps[ny][nx] = maps[y][x]+1
+            if 0<=nx<n and 0<=ny<m and maps[nx][ny] == 1:
+                if not visited[nx][ny]:
+                    visited[nx][ny] = True
+                    q.append((nx, ny))
+                    maps[nx][ny] = maps[x][y]+1
     if maps[n-1][m-1]==1:
         return -1
     else:
