@@ -1,0 +1,14 @@
+def solution(want, number, discount):
+    answer = 0
+    ans = {i : j for i,j in zip(want,number)}
+    sum_number = sum(number)
+    for i in range(len(discount)-sum_number+1):
+        temp = {}
+        for j in range(i,min(i+sum_number,len(discount))):
+            if discount[j] in temp:
+                temp[discount[j]] += 1
+            else:
+                temp[discount[j]] = 1
+        if temp == ans:
+            answer += 1
+    return answer
