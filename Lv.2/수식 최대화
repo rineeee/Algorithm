@@ -1,0 +1,44 @@
+import re
+from itertools import permutations
+
+def r(a,b,p):
+    if p == "*":
+        return a*b
+    if p == "+":
+        return a+b
+    if p == "-":
+        return a-b
+    
+
+def solution(expression):
+    answer = []
+    
+    for i in permutations(["*","+","-"], 3):
+        a = [int(i) for i in re.split("[-*+]",expression)]
+        b = [i for i in re.split("[0-9]",expression) if i != ""]
+        while True:
+            if i[0] not in b:
+                break
+            f1 = b.index(i[0])
+            a[f1] = r(a[f1],a[f1 + 1],b[f1])
+            a.pop(f1 + 1)
+            b.pop(f1)
+        while True:
+            if i[1] not in b:
+                break
+            f1 = b.index(i[1])
+            a[f1] = r(a[f1],a[f1 + 1],b[f1])
+            a.pop(f1 + 1)
+            b.pop(f1)
+        while True:
+            if i[2] not in b:
+                break
+            f1 = b.index(i[2])
+            a[f1] = r(a[f1],a[f1 + 1],b[f1])
+            a.pop(f1 + 1)
+            b.pop(f1)
+        answer.append(a[0])
+    tem = []   
+    for i in answer:
+        tem.append(abs(i))
+    return max(tem)
