@@ -1,44 +1,22 @@
 import re
 from itertools import permutations
 
-def r(a,b,p):
-    if p == "*":
-        return a*b
-    if p == "+":
-        return a+b
-    if p == "-":
-        return a-b
-    
-
 def solution(expression):
-    answer = []
+    #1
+    op = [x for x in ['*','+','-'] if x in expression]
+    op = [list(y) for y in permutations(op)]
+    ex = re.split(r'(\D)',expression)
     
-    for i in permutations(["*","+","-"], 3):
-        a = [int(i) for i in re.split("[-*+]",expression)]
-        b = [i for i in re.split("[0-9]",expression) if i != ""]
-        while True:
-            if i[0] not in b:
-                break
-            f1 = b.index(i[0])
-            a[f1] = r(a[f1],a[f1 + 1],b[f1])
-            a.pop(f1 + 1)
-            b.pop(f1)
-        while True:
-            if i[1] not in b:
-                break
-            f1 = b.index(i[1])
-            a[f1] = r(a[f1],a[f1 + 1],b[f1])
-            a.pop(f1 + 1)
-            b.pop(f1)
-        while True:
-            if i[2] not in b:
-                break
-            f1 = b.index(i[2])
-            a[f1] = r(a[f1],a[f1 + 1],b[f1])
-            a.pop(f1 + 1)
-            b.pop(f1)
-        answer.append(a[0])
-    tem = []   
-    for i in answer:
-        tem.append(abs(i))
-    return max(tem)
+    #2
+    a = []
+    for x in op:
+        _ex = ex[:]
+        for y in x:
+            while y in _ex:
+                tmp = _ex.index(y)
+                _ex[tmp-1] = str(eval(_ex[tmp-1]+_ex[tmp]+_ex[tmp+1]))
+                _ex = _ex[:tmp]+_ex[tmp+2:]
+        a.append(_ex[-1])
+
+    #3
+    return max(abs(int(x)) for x in a)
