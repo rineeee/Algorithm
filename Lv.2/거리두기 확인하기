@@ -1,0 +1,43 @@
+from collections import deque
+
+dx = [-1,1,0,0]
+dy = [0,0,-1,1]
+
+def bfs(place, i, j):
+    visit = [[0] * 5 for _ in range(5)]
+    queue = deque([[i,j,0]])
+    visit[i][j] = 1
+    
+    while queue:
+        x,y,dist = queue.popleft()
+        if 0 < dist < 3 and place[x][y] == "P":
+            return False
+        if dist > 2:
+            break
+        for k in range(4):
+            nx, ny, nd = x+dx[k], y+dy[k], dist+1
+            if 0<= nx < 5 and 0<= ny < 5:
+                if place[nx][ny] != "X" and not visit[nx][ny]:
+                    queue.append([nx,ny,nd])
+                    visit[nx][ny] = 1
+    return True
+        
+
+def solution(places):
+    answer = []
+    
+    for place in places:
+        chk = 0
+        for i in range(5):
+            for j in range(5):
+                if place[i][j] == "P":
+                    if not bfs(place, i, j):
+                        answer.append(0)
+                        chk = 1
+                        break
+            if chk:
+                break
+        else:
+            answer.append(1)
+                        
+    return answer
