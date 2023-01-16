@@ -1,0 +1,29 @@
+from collections import deque
+
+def solution(order):
+    answer = 0
+    temp = []
+    q = deque()
+    for i in range(1,len(order) + 1):
+        q.append(i)
+    num = 0
+    
+    while q:
+        if order[num] != q[0]:
+            if temp and temp[-1] == order[num]:
+                temp.pop()
+                num += 1
+            else:
+                temp.append(q.popleft())
+        else:
+            num += 1
+            q.popleft()
+    
+    while temp:
+        if order[num] == temp[-1]:
+            num += 1
+            temp.pop()
+        else:
+            break
+            
+    return num
