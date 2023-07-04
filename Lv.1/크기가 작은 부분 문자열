@@ -1,0 +1,9 @@
+def solution(t, p):
+    n = len(p)
+    start = 0 
+    answer = 0
+    for i in range(n, len(t)+1):
+        if t[start:i] <= p:
+            answer += 1
+        start += 1
+    return answer
