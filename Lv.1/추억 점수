@@ -1,0 +1,10 @@
+def solution(name, yearning, photo):
+    answer = []
+    dic = dict(zip(name,yearning))
+    for i in photo:
+        a = []
+        for j in i:
+            if j in dic:
+                a.append(dic[j])
+        answer.append(sum(a))
+    return answer
