@@ -1,0 +1,25 @@
+def solution(keymap, targets):
+    answer = []
+    key = {}
+    for i in keymap:
+        for idx, val in enumerate(i):
+            if val in key:
+                key[val] = min(key[val],idx+1)
+            else:
+                key[val] = idx+1
+    
+    for i in targets:
+        possible = True
+        num = 0
+        for j in i:
+            if j in key:
+                num += key[j]
+            else:
+                possible = False
+                break
+        if possible:
+            answer.append(num)
+        else:
+            answer.append(-1)
+            
+    return answer
