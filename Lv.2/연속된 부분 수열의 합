@@ -1,0 +1,20 @@
+from collections import deque
+
+def solution(sequence, k):
+    dic = {}
+    index = deque()
+    que = deque()
+    num = 0 
+    for idx, i in enumerate(sequence):
+        index.append(idx)     
+        que.append(i)
+        num = num + i
+        while num >= k:
+            if num == k:
+                if len(que) not in dic:
+                    dic[len(que)] = (index[0], index[-1])
+            index.popleft()
+            tmp = que.popleft()
+            num -= tmp
+            
+    return dic[min(dic.keys())]
