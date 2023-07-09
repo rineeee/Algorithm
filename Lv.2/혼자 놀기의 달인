@@ -1,0 +1,31 @@
+def solution(cards):
+    answer = 0
+
+    visit = [0 for _ in range(len(cards))] 
+    saveCount = []
+
+    for idx, nowCard in enumerate(cards):
+
+        if visit[idx] == 0:
+            groupCount = 1
+            visit[idx] = 1
+            nextIdx = nowCard-1 
+
+            while True:
+                if visit[nextIdx] == 0:
+                    groupCount += 1
+                    visit[nextIdx] = 1
+                    nextIdx = cards[nextIdx]-1 
+                else:
+                    break
+
+            saveCount.append(groupCount)
+
+    saveCount.sort(reverse=True) 
+
+    if len(saveCount) > 1:
+        answer = saveCount[0] * saveCount[1]
+    else:
+        answer = 0
+
+    return answer
