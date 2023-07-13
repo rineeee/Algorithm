@@ -1,0 +1,13 @@
+class Solution(object):
+    def twoSum(self, nums, target):
+        answer = []
+        num_dic = {}
+        for idx, i in enumerate(nums):
+            num_dic[i] = idx
+        
+        for idx, i in enumerate(nums):
+            tmp = target - i
+            if tmp in num_dic and num_dic[tmp] != idx :
+                answer.append(num_dic[tmp])
+                answer.append(idx)
+                return answer
