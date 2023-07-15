@@ -1,0 +1,7 @@
+def solution(n):
+    if n % 2:
+        return 0
+    front = back = 1
+    for _ in range(n//2):
+        front, back = back, (4*back - front) % 1000000007
+    return back
