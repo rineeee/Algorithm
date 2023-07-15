@@ -1,0 +1,32 @@
+from itertools import combinations
+import math
+
+def solution(line):
+    dots_x = []
+    dots_y = []
+
+    for f1, f2 in combinations(line, 2):
+        a, b, e = f1
+        c, d, f = f2
+
+        if a * d - b * c == 0:
+            continue
+
+        x = (b*f - e*d) / (a*d - b*c)
+        y = (e*c - a*f) / (a*d - b*c)
+
+        if x == int(x) and y == int(y):
+            dots_x.append(int(x))
+            dots_y.append(int(y))
+
+    a = max(dots_x) - min(dots_x)
+    b = max(dots_y) - min(dots_y)
+
+    answer = [['.'] * (a + 1) for _ in range(b + 1)]
+    for i in range(len(dots_x)):
+        x = dots_x[i] - min(dots_x)
+        y = -(dots_y[i] - max(dots_y))
+
+        answer[y][x] = '*'
+
+    return [''.join(a) for a in answer]
