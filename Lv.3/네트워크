@@ -1,0 +1,22 @@
+from collections import deque 
+
+def solution(n, computers):
+    answer = 0
+    visited = [False for i in range(n)]
+    for com in range(n):
+        if visited[com] == False:
+            bfs(n, computers, com, visited)
+            answer += 1
+    return answer
+
+def bfs(n, computers, com, visited):
+    visited[com] = True
+    queue = deque()
+    queue.append(com)
+    while queue:
+        now = queue.popleft()
+        visited[now] = True
+        for i in range(n):
+            if now != i and computers[now][i] == 1:
+                if visited[i] == False:
+                    queue.append(i)
