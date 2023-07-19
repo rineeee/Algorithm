@@ -1,0 +1,20 @@
+def solution(n, stations, w):
+    answer = 0
+    start = 1
+    width = 2*w + 1
+    
+    for station in stations:
+        tmp = station - w - start
+        x, y = divmod(tmp, width)
+        answer += x
+        if y != 0:
+            answer += 1
+        start = station + w + 1
+    if stations[-1] + w < n:
+        x, y = divmod(n - stations[-1] - w, width)
+        answer += x
+        if y != 0:
+            answer += 1
+    
+    return answer
+        
