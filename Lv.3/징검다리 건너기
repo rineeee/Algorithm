@@ -1,0 +1,19 @@
+def solution(stones, k):
+    st = 1
+    en = max(stones)
+    while st <= en:
+        mid = (st + en) // 2
+        cnt = 0
+        for stone in stones:
+            if stone - mid <= 0:
+                cnt += 1
+            else:
+                cnt = 0
+            if cnt >= k:
+                break
+        if cnt >= k:
+            en = mid - 1
+        else:
+            st = mid + 1
+        
+    return st
