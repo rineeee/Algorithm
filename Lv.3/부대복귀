@@ -1,0 +1,24 @@
+from collections import deque
+
+def bfs(dest, graph, costs):
+    q = deque([dest])
+    costs[dest] = 0
+    while q:
+        x = q.popleft()
+        for node in graph[x]:
+            if costs[node] == -1:
+                q.append(node) 
+                costs[node] = costs[x] + 1
+
+    return costs
+
+
+def solution(n, roads, sources, destination):
+    graph = [[] for _ in range(n+1)]
+    for s, e in roads:
+        graph[s].append(e)
+        graph[e].append(s)
+    costs = [-1] * (n+1)
+    costs = bfs(destination, graph, costs)
+
+    return [costs[s] for s in sources]
