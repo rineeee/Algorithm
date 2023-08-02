@@ -1,0 +1,39 @@
+def solution(n, m, x, y, queries):
+    answer = 0
+    # 공이 한번에 움직인다고 생각한다
+    # 공의 범위를 사각형으로 두고 생각해보자
+    # 역으로 생각한다
+    queries.reverse()
+    xMin, xMax, yMin, yMax = x, x, y, y
+    for ty, dx in queries:
+        if ty == 0:
+            yMax += dx
+            if yMax >= m:
+                yMax = m - 1
+            if yMin != 0:
+                yMin += dx
+        elif ty == 1:
+            yMin -= dx
+            if yMin < 0:
+                yMin = 0
+            if yMax != m - 1:
+                yMax -= dx
+        elif ty == 2:
+            xMax += dx
+            if xMax >= n:
+                xMax = n - 1
+            if xMin != 0:
+                xMin += dx
+        elif ty == 3:
+            xMin -= dx
+            if xMin - dx < 0:
+                xMin = 0
+            if xMax != n - 1:
+                xMax -= dx
+
+        if xMin > n or xMax < 0 or yMin > m or yMax < 0:
+            return 0
+        else:
+            answer = (xMax - xMin + 1) * (yMax - yMin + 1)
+
+    return answer
