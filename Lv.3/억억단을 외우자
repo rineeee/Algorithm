@@ -1,27 +1,22 @@
 def solution(e, starts):
-    result = []
-    divisor = [1 for _ in range(e+1)]
-    memo = 0
-    starts_dict = {}
-    sorted_starts = sorted(starts)
-
-    for i in range(2, e+1):
-        for j in range(i, e+1, i):
-            divisor[j] += 1
-
-    for i in range(len(sorted_starts)):
-        if memo == 0:
-            max_index = divisor[sorted_starts[i]:].index(max(divisor[sorted_starts[i]:]))+sorted_starts[i]
-            starts_dict[sorted_starts[i]] = max_index
-            memo = max_index
-        else:
-            if sorted_starts[i] <= memo:
-                starts_dict[sorted_starts[i]] = memo
-            else:
-                memo = divisor[sorted_starts[i]:].index(max(divisor[sorted_starts[i]:]))+sorted_starts[i]
-                starts_dict[sorted_starts[i]] = memo
+    divisor_list = [0]*(e+1)
+    min_s = min(starts)
+    for i in range(1, e + 1):
+        if i * i <= e:
+            divisor_list[i*i] += 1
+        for j in range(i+1, e + 1):
+            n = i * j
+            if n > e:
+                break
+            divisor_list[n] += 2
+            
+    max_div_list = [0]*(e+1)
+    max_div_list[-1] = e
+    for i in range(e-1, min_s-1, -1) :
+        if divisor_list[max_div_list[i+1]] <= divisor_list[i] :
+            max_div_list[i] = i
+        else :
+            max_div_list[i] = max_div_list[i+1]
+    answer = [ max_div_list[s] for s in starts ]
     
-    for s in starts:
-        result.append(starts_dict.get(s))
-        
-    return result
+    return answer
