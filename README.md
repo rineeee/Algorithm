@@ -7,11 +7,14 @@
 ## 알고리즘
 
 ### 순서
+
 프로그래머스
 - 01. level1
 - 02. level2
 - 03. level3
-  4. level4
+- 04. level4
+
+    
 leetcode
 - 01. easy
 
