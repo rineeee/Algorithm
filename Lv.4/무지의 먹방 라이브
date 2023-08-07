@@ -1,0 +1,21 @@
+from heapq import heappush, heappop
+
+def solution(food_times, k):
+    if sum(food_times) <= k:
+        return - 1
+    
+    foodHeap = []
+    length = len(food_times)   
+    for i in range(length):
+        heappush(foodHeap, [food_times[i], i + 1]);
+    
+    time = 0
+    while (foodHeap[0][0] - time) * length < k:
+        k -= (foodHeap[0][0] - time) * length
+        time += (foodHeap[0][0] - time)
+        length -= 1
+        heappop(foodHeap)
+        
+    result = sorted(foodHeap, key = lambda x : x[1])   
+    answer = result[k % length][1]
+    return answer
