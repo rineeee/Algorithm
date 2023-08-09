@@ -1,0 +1,29 @@
+from bisect import bisect_left,bisect_right
+
+def solution(words, queries):
+    answer = []
+    
+    w = [[] for _ in range(10001)]
+    reverse_w = [[] for _ in range(10001)]
+    for word in words:
+        w[len(word)].append(word)
+        reverse_w[len(word)].append(word[::-1])
+        
+    for i in range(10001):
+        w[i].sort()
+        reverse_w[i].sort()
+            
+    for q in queries:
+        qA = q.replace('?','a')
+        qZ = q.replace('?','z')
+        
+        if q[0] == '?':
+            s = bisect_left(reverse_w[len(q)],qA[::-1])
+            e = bisect_right(reverse_w[len(q)],qZ[::-1])
+            answer.append(e-s)
+        else:
+            s = bisect_left(w[len(q)],qA)
+            e = bisect_right(w[len(q)],qZ)
+            answer.append(e-s)
+    
+    return answer
