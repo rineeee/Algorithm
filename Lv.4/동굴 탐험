@@ -1,0 +1,34 @@
+def dfs(node):
+    stack = [node]
+    visited[node] = True
+    while stack:
+        curr = stack.pop() 
+        for next in graph[curr]:
+            if n_visit[curr]: 
+                dfs(n_visit[curr])
+            if not visited[p_visit[curr]]: 
+                n_visit[p_visit[curr]] = curr 
+                continue
+            if not visited[next]: 
+                stack.append(next)
+                visited[next] = True
+def solution(n, path, order):
+    global graph, p_visit, n_visit, visited
+    graph = [[] for _ in range(n)]
+    p_visit = [0 for _ in range(n)]
+    n_visit = [0 for _ in range(n)]
+    visited = [False for _ in range(n)]
+    
+    for p in path:
+        graph[p[0]].append(p[1])
+        graph[p[1]].append(p[0])
+        
+    for p in order:
+        p_visit[p[1]] = p[0]
+        
+    dfs(0) 
+    
+    if sum(visited) == n: 
+        return True
+    
+    return False
