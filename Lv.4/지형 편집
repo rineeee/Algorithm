@@ -1,0 +1,24 @@
+from functools import reduce
+
+def solution(land, P, Q):
+    answer = float('inf')
+    floor = -1
+    prev = 0
+    
+    flat = reduce(lambda x,y :x+y, land)
+    total = sum(flat)
+    flat.sort()
+
+    for cur in range(len(flat)):
+        if floor != flat[cur]:
+            floor = flat[cur]
+            add = flat[cur] * cur - prev
+            remove = total - prev - (len(flat) - cur)*flat[cur]
+            re = add * P + remove * Q
+            
+            if answer > re: 
+                answer = re;
+            
+        prev += flat[cur];
+    
+    return answer
