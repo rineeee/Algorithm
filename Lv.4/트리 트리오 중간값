@@ -1,0 +1,31 @@
+from collections import deque
+
+def BFS(tree, start):
+    distance = []
+    q = deque()
+    q.append([start, 0])
+    visit = {start : True}
+    while q:
+        curr, dist = q.popleft()
+        distance.append([curr, dist])
+
+        for node in tree[curr]:
+            if node not in visit:
+                q.append([node, dist+1])
+                visit[node] = True
+
+    return distance
+
+def solution(n, edges):
+    tree = {i+1 : [] for i in range(n)}
+    for edge in edges:
+        tree[edge[0]].append(edge[1])
+        tree[edge[1]].append(edge[0])
+        
+    leaf = BFS(tree, 1)
+    farther = BFS(tree, leaf[-1][0])
+
+    if leaf[-1][1] == leaf[-2][1]:
+        return farther[-1][1]
+    else:
+        return farther[-2][1]
