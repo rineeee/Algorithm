@@ -1,41 +1,53 @@
-import heapq as h
-def solution(n, start, end, roads, traps):
-    start -=1; end -=1;
-    INF = float("inf");
-    graph = [[] for _ in range(n)]
-    trap_dict = {trap-1:idx for idx, trap in enumerate(traps)};
-    nodes = [];
-    isVisit = [[False]*n for _ in range(1<<len(traps))]
-    
-    for road in roads:
-        start_i, end_i, cost = road
-        graph[start_i-1].append([end_i-1,cost,0])
-        graph[end_i-1].append([start_i-1,cost,1])
-    
-    h.heappush(nodes,(0,start,0))
-    while nodes:
-        cur_time, cur_node, state = h.heappop(nodes);
-        if cur_node == end : return cur_time;      
-        if isVisit[state][cur_node] == True: continue;
-        else: isVisit[state][cur_node] = True;
-            
-        for next_node, next_cost, road_type in graph[cur_node]:
-            next_state = state
-            cur_isTrap = 1 if cur_node in trap_dict else 0;
-            next_isTrap = 1 if next_node in trap_dict else 0;
+from heapq import heappush, heappop
+INF = float("inf")
 
-            if cur_isTrap == 0 and next_isTrap == 0:
-                if road_type == 1: continue
-            elif (cur_isTrap + next_isTrap) == 1:
-                node_i = cur_node if cur_isTrap == 1 else next_node
-                isTrapOn = (state & (1<<trap_dict[node_i]))>>trap_dict[node_i]
-                if isTrapOn != road_type: continue
+def dijkstra(n, graph, src, dst, traps):
+    q = []
+    visited = [[False for _ in range(1<<len(traps))] for _ in range(n+1)]
+    heappush(q, (0,src,0)) # 비용, 시작점, 함정상태
+    
+    while q:
+        w, u, state = heappop(q)
+        if u == dst:
+            return w
+        if visited[u][state]:
+            continue
+        visited[u][state] = True
+        
+        currTrapped = False
+        trapped = {}
+        for i in range(len(traps)):
+            bit = 1 << i # 1, 10, 100, 1000 ....
+            if state & bit:
+                if traps[i] == u:
+                    state &= ~bit
+                else:
+                    trapped[traps[i]] = True
             else:
-                isTrapOn = (state & (1<<trap_dict[cur_node]))>>trap_dict[cur_node]
-                n_isTrapOn = (state & (1<<trap_dict[next_node]))>>trap_dict[next_node]
-                if (isTrapOn ^ n_isTrapOn) != road_type: continue
-            
-            if next_isTrap == 1:
-                next_state = state ^ (1<<trap_dict[next_node])
+                 if traps[i] == u:
+                    state |= bit
+                    trapped[traps[i]] = True
+                    currTrapped = True
+        for v in range(1, n+1):
+            if v == u:
+                continue
+            nextTrapped = True if v in trapped else False
+            if currTrapped == nextTrapped:
+                if graph[u][v] != INF:
+                    heappush(q,((w+graph[u][v]), v, state))
+            else:
+                if graph[v][u] != INF:
+                    heappush(q,((w+graph[v][u]), v, state))
 
-            h.heappush(nodes,(cur_time+next_cost, next_node, next_state))
+
+def solution(n, start, end, roads, traps):
+    graph = [[INF for _ in range(n+1)] for _ in range(n+1)]
+    for i in range(1, n+1):
+        graph[i][i] = 0
+    
+    for data in roads:
+        u, v, w = data[0], data[1], data[2]
+        if graph[u][v] > w:
+            graph[u][v] = w
+            
+    return dijkstra(n, graph, start, end, traps)
