@@ -1,0 +1,66 @@
+from collections import defaultdict
+
+def solution(edges, target):
+    node2children = create_node2children(edges)
+    total, node2min, node2max = create_node2visit(target)
+    node2idx = defaultdict(int)
+    node2visit = defaultdict(int)
+    visits = []
+    while total:
+        p = 1
+        while node2children[p]:
+            idx = node2idx[p]
+            child = node2children[p][idx]
+            idx += 1
+            if idx == len(node2children[p]):
+                idx = 0
+            node2idx[p] = idx
+            p = child
+        visits.append(p)
+        node2visit[p] += 1
+        if node2visit[p] <= node2min[p]:
+            total -= 1
+        if node2visit[p] > node2max[p]:
+            return [-1]
+    node2num = create_node2num(node2visit, node2min, node2max, target)
+    answer = []
+    for node in visits:
+        answer.append(node2num[node].pop())
+    return answer
+
+def create_node2children(edges):
+    node2children = defaultdict(list)
+    for parent, child in edges:
+        node2children[parent].append(child)
+    for _, children in node2children.items():
+        children.sort()
+    return node2children
+
+def create_node2visit(target):
+    total = 0
+    node2min = defaultdict(int)
+    node2max = defaultdict(int)
+    for node, t in enumerate(target, 1):
+        n, r = divmod(t, 3)
+        if r:
+            n += 1
+        node2min[node] = n
+        total += n
+        node2max[node] = t
+    return total, node2min, node2max
+
+def create_node2num(node2visit, node2min, node2max, target):
+    node2num = defaultdict(list)
+    for node, t in enumerate(target, 1):
+        if not t:
+            continue
+        num = []
+        three, two = divmod(node2max[node] - node2visit[node], 2)
+        for _ in range(three):
+            num.append(3)
+        if two:
+            num.append(2)
+        while len(num) < node2visit[node]:
+            num.append(1)
+        node2num[node] = num
+    return node2num
