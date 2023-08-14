@@ -1,0 +1,19 @@
+from collections import defaultdict
+from math import comb
+from functools import lru_cache
+
+@lru_cache(maxsize=None)
+def C(n,k): return comb(n,k)
+
+def solution(a):
+    one_cnt = [sum(ones) for ones in zip(*a)]
+    
+    DP = defaultdict(int,{(rows := len(a))-one_cnt[0]:comb(rows, one_cnt[0])})
+    for ones in one_cnt[1:]: 
+        next_DP = defaultdict(int)
+        for even_rows in DP:
+            odd_rows = rows-even_rows
+            for add_one in range(max(0,ones-odd_rows), min(ones,even_rows)+1): 
+                next_DP[even_rows+ones-2*add_one] += DP[even_rows] * C(even_rows, add_one) * C(odd_rows, ones-add_one)%(10**7+19)
+        DP = next_DP
+    return DP[rows]
