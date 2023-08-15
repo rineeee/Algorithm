@@ -1,20 +1,49 @@
+def check_bingo(x, board):
+    n = len(board)
+    m = len(board[0])
+    # 가로
+    for i in range(n):
+        tmp = 0
+        for j in range(m):
+            if board[i][j] == x:
+                tmp += 1
+        if tmp == 3:
+            return True
+    # 세로
+    for j in range(m):
+        tmp = 0
+        for i in range(n):
+            if board[i][j] == x:
+                tmp += 1
+        if tmp == 3:
+            return True
+        
+    # 대각선
+    if board[0][0] == board[1][1] == board[2][2] == x:
+        return True
+    if board[0][2] == board[1][1] == board[2][0] == x:
+        return True
+    
+    return False
+    
 def solution(b):
-    o, x = sum([arr.count('O') for arr in b]), sum([arr.count('X') for arr in b])
-    if 0 <= o-x <= 1:
-        rb = [b[0][i]+b[1][i]+b[2][i] for i in range(3)]
-        winO, winX = 0, 0
-        for i, j in zip(b, rb):
-            if 'OOO' in [i,j]: winO += 1
-            if 'XXX' in [i,j]: winX += 1
+    o_num = 0
+    x_num = 0
+    for i in b:
+        for j in i:
+            if j == "X":
+                x_num += 1
+            elif j == "O":
+                o_num += 1
+    
+    winX = check_bingo('X',b)
+    winO = check_bingo('O',b)
+    if winX and winO: return 0
+    if winO and not winX and o_num==x_num: return 0
+    if winX and not winO and o_num !=x_num : return 0
 
-        diagonal = [b[0][0] + b[1][1] + b[2][2], b[0][2] + b[1][1] + b[2][0]]
-        winO += diagonal.count('OOO')
-        winX += diagonal.count('XXX')
+    if not (o_num == x_num or o_num == x_num + 1):
+        return 0
 
-        if winX and winO: return 0
-        if winO and winX == 0 and o==x: return 0
-        if winX and winO == 0 and o!=x: return 0
-
-        return 1
-
-    return 0
+    return 1
+    
