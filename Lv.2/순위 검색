@@ -1,21 +1,29 @@
-import bisect, itertools, collections
+from collections import defaultdict
+from bisect import bisect_left, bisect_right
+
+def check(pool, find):
+    index = bisect_left(pool, find)
+    return len(pool) - index
 
 def solution(info, query):
-    infomap = collections.defaultdict(list)
-    binarys = list(itertools.product((True, False), repeat=4))
-    for inf in info:
-        inf = inf.split()
-        for binary in binarys:
-            key = ''.join([inf[i] if binary[i] else '-' for i in range(4)]) 
-            infomap[key].append(int(inf[4]))
+    dic = defaultdict(list)
+    for i in info:
+        i = i.split()
+        for a in (i[0], '-'):
+            for b in (i[1], '-'):
+                for c in (i[2], '-'):
+                    for d in (i[3], '-'):
+                        dic[(a, b, c, d)].append(int(i[4]))
+    for d in dic:
+        dic[d].sort()
 
-    for k in infomap.keys():
-        infomap[k].sort()
-    answers = []
+    answer = []
     for q in query:
-        l,_,p,_,c,_,f, point = q.split()
-        key = ''.join([l,p,c,f])
-        i = bisect.bisect_left(infomap[key], int(point))
-        answers.append(len(infomap[key]) - i)
+        q = q.split()
 
-    return answers
+        pool = dic[(q[0], q[2], q[4], q[6])]
+        find = int(q[7])
+        answer.append(check(pool,find))
+        
+    return answer
+    
