@@ -2,10 +2,10 @@ def solution(targets):
     answer = 0
     targets.sort(key = lambda x: (x[1], x[0]))
     
-    s = e = 0
+    last = 0
     for target in targets:
-        if target[0] >= e:
+        if target[0] >= last:
             answer += 1
-            e = target[1]
-
-    return answer 
+            last = target[1]
+            
+    return answer
