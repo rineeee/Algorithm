@@ -20,8 +20,8 @@ def solution(lines):
         if point: 
             points.append(point)
     
-    mx, Mx = float('inf'),0
-    my, My = float('inf'),0
+    mx, Mx = float('inf'),-float('inf')
+    my, My = float('inf'),-float('inf')
     for x,y in points:
         mx, Mx = min(mx, x), max(Mx, x) 
         my, My = min(my, y), max(My, y) 
