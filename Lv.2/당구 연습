@@ -1,14 +1,18 @@
 def solve(x, y, startX, startY, ballX, ballY):
     dists = []
+    # 위
     if not (ballX == startX and ballY > startY):
         d2 = (ballX - startX)**2 + (ballY - 2*y+startY)**2
         dists.append(d2)
+    # 아래
     if not (ballX == startX and ballY < startY):
         d2 = (ballX - startX)**2 + (ballY + startY)**2
         dists.append(d2)
+    # 왼쪽
     if not (ballY == startY and ballX < startX):
         d2 = (ballX + startX)**2 + (ballY - startY)**2
         dists.append(d2)
+    # 오른쪽
     if not (ballY == startY and ballX > startX):
         d2 = (ballX - 2*x+startX)**2 + (ballY - startY)**2
         dists.append(d2)
