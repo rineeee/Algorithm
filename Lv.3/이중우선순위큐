@@ -1,21 +1,22 @@
-import heapq
+from heapq import heappush, heappop
 
 def solution(operations):
-    min_heap = []
-    max_heap = []
-    for i in operations:
-        if i[0] == 'I':
-            heapq.heappush(min_heap, int(i[1:]))
-            heapq.heappush(max_heap, (-int(i[1:]), int(i[1:])))
-        elif len(min_heap) == 0:
+    heap = []
+    for op in operations:
+        op_s = op.split()
+        if op_s[0] == 'I':
+            heappush(heap, int(op_s[1]))
+            heap.sort()
+        elif len(heap) == 0:
             continue
-        elif int(i[1:]) == 1:
-            heapq.heappop(max_heap)
-            min_heap.pop()
+        elif op_s[1] == '1':
+            heap.pop()
         else:
-            heapq.heappop(min_heap)
-            max_heap.pop()
-    if len(min_heap) > 0:
-        return [max_heap[0][1], min_heap[0]]
-    else:
-        return [0, 0]
+            heappop(heap)
+    if heap:
+        return [heap.pop(), heappop(heap)]
+    return [0,0]
+            
+        
+                     
+        
