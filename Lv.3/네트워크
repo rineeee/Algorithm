@@ -1,22 +1,24 @@
 from collections import deque 
 
+def bfs(i,visited,computers,n):
+    que = deque()
+    que.append(i)
+
+    while que:
+        que_p = que.popleft()
+        visited[que_p] = True
+        for j in range(n):
+            if not visited[j] and computers[que_p][j] == 1:
+                que.append(j)
+    
 def solution(n, computers):
-    answer = 0
-    visited = [False for i in range(n)]
-    for com in range(n):
-        if visited[com] == False:
-            bfs(n, computers, com, visited)
+    answer = 0 
+    visited = [False for _ in range(n)]
+    
+    for i in range(n):
+        if not visited[i]:
+            bfs(i,visited,computers,n)
             answer += 1
     return answer
 
-def bfs(n, computers, com, visited):
-    visited[com] = True
-    queue = deque()
-    queue.append(com)
-    while queue:
-        now = queue.popleft()
-        visited[now] = True
-        for i in range(n):
-            if now != i and computers[now][i] == 1:
-                if visited[i] == False:
-                    queue.append(i)
+            
