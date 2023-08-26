@@ -1,22 +1,20 @@
+from collections import defaultdict
 def solution(genres, plays):
     answer = []
+    play_count = defaultdict(int)
+    many_play = defaultdict(list)
+    
+    i = 0
+    for genre, play in zip(genres,plays):
+        play_count[genre] += play
+        many_play[genre].append((play,i))
+        i += 1
 
-    dic1 = {}
-    dic2 = {}
-
-    for i, (g, p) in enumerate(zip(genres, plays)):
-        if g not in dic1:
-            dic1[g] = [(i, p)]
-        else:
-            dic1[g].append((i, p))
-
-        if g not in dic2:
-            dic2[g] = p
-        else:
-            dic2[g] += p
-
-    for (k, v) in sorted(dic2.items(), key=lambda x:x[1], reverse=True):
-        for (i, p) in sorted(dic1[k], key=lambda x:x[1], reverse=True)[:2]:
-            answer.append(i)
-
+    play_count = sorted(play_count.items(), key = lambda x: -x[1])
+    for i in play_count:
+        many_play[i[0]].sort(key = lambda x: (-x[0], x[1]))
+        for a,b in many_play[i[0]][:2]:
+            answer.append(b)
     return answer
+        
+    
