@@ -1,27 +1,21 @@
 from itertools import permutations
-    
-def check(user, ban):
-    if len(user) != len(ban):
-        return False
-    else:
-        for i, j in zip(user, ban):
-            if j == '*':
+
+def check(ids, banned_id):
+    for a, b in zip(ids, banned_id):
+        if len(a) != len(b):
+            return False
+        for aa, bb in zip(a,b):
+            if bb == "*":
                 continue
-            if i != j:
+            if aa != bb:
                 return False
-        return True
-        
+    return True
+
 def solution(user_id, banned_id):
     answer = []
     
-    for i in permutations(user_id, len(banned_id)):
-        count = 0
-        for a, b in zip(i, banned_id):
-            if check(a, b):
-                count += 1
-                
-        if count == len(banned_id):
-            if set(i) not in answer:
-                answer.append(set(i))
-    
+    for ids in permutations(user_id, len(banned_id)):
+        if check(ids, banned_id):
+            if set(ids) not in answer:
+                answer.append(set(ids))
     return len(answer)
