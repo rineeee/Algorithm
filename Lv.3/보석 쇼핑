@@ -1,34 +1,22 @@
+from collections import defaultdict
+
 def solution(gems):
-    answer = [] 
-    shortest = len(gems)+1 
-
-    start_p = 0 
-    end_p = 0 
-    check_len = len(set(gems)) 
-    contained = {} 
-
-    while end_p < len(gems):
-
-        if gems[end_p] not in contained:
-            contained[gems[end_p]] = 1 
+    n = len(set(gems))
+    ans = [0, len(gems)]
+    gem_dict = defaultdict(int)
+    gem_dict[gems[0]] = 1
+    i, j = 0, 0
+    while i <= len(gems) and j <= len(gems):
+        if len(gem_dict) == n:
+            if j - i < ans[1] - ans[0]:
+                ans = [i+1, j+1]
+            gem_dict[gems[i]] -= 1
+            if gem_dict[gems[i]] == 0:
+                del gem_dict[gems[i]]
+            i += 1
         else:
-            contained[gems[end_p]] += 1
-            
-        end_p += 1
-
-        if len(contained) == check_len:
-            while start_p < end_p: 
-                if contained[gems[start_p]] > 1: 
-                    contained[gems[start_p]] -= 1
-                    start_p += 1 
-                    
-                elif shortest > end_p - start_p: 
-                    shortest = end_p - start_p
-                    answer = [start_p+1, end_p] 
-                    break
-                    
-                else:
-                    break
-
-
-    return answer
+            j += 1
+            if j == len(gems):
+                break
+            gem_dict[gems[j]] += 1
+    return ans
