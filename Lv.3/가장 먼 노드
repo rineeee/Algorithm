@@ -1,19 +1,19 @@
-def solution(n, edge):
-    adj = [[] for _ in range(n + 1)]
-    for v1, v2 in edge:
-        adj[v1].append(v2)
-        adj[v2].append(v1)
+from collections import deque
+def solution(n, vertex):
+    graph = [[] for _ in range(n+1)]
+    for v1, v2 in vertex:
+        graph[v1].append(v2)
+        graph[v2].append(v1)
     
-    ch = [0 for _ in range(n + 1)]
-    ch[1] = 1
+    visited = [0 for _ in range(n+1)]
+    visited[1] = 1
+    que = deque()
+    que.append(1)
     
-    queue = [1]
-    
-    while queue:
-        cur = queue.pop(0)
-        for dest in adj[cur]:
-            if not ch[dest]:
-                ch[dest] = ch[cur] + 1
-                queue.append(dest)
-        
-    return ch.count(max(ch))
+    while que:
+        tmp = que.popleft()
+        for i in graph[tmp]:
+            if not visited[i]:
+                visited[i] = visited[tmp] + 1
+                que.append(i)
+    return visited.count(max(visited))
