@@ -1,17 +1,25 @@
 from collections import defaultdict
-def solution(tickets):
-    r = defaultdict(list)
-    for i,j in tickets:
-        r[i].append(j)
-    for i in r.keys():
-        r[i].sort()
 
-    s = ["ICN"]
-    p = []
-    while s:
-        q = s[-1]
-        if r[q] != []:
-            s.append(r[q].pop(0))
+def solution(tickets):
+    answer = []
+    
+    dic = defaultdict(list)
+    for a, b in tickets:
+        dic[a].append(b)
+    for key in dic:
+        dic[key].sort(reverse=True)
+        
+    stack = ["ICN"]
+    
+    while stack:
+        tmp = stack[-1]
+        
+        if tmp not in dic or len(dic[tmp]) == 0:
+            answer.append(stack.pop())
         else:
-            p.append(s.pop())
-    return p[::-1]
+            stack.append(dic[tmp].pop())
+            
+    return answer[::-1]
+        
+    
+    
