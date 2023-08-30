@@ -1,0 +1,21 @@
+from heapq import heappop, heappush
+
+def solution(jobs): 
+    answer, now, i = 0, 0, 0
+    h = []
+    start = -1
+    
+    while i < len(jobs):   
+        for at, long in jobs:
+            if start < at <= now:
+                heappush(h, (long, at))
+        
+        if h:
+            long, at = heappop(h)
+            start = now
+            now += long
+            answer += now - at
+            i += 1
+        else:
+            now += 1
+    return answer // len(jobs)
