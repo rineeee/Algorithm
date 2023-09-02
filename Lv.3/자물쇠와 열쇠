@@ -1,16 +1,16 @@
-def attach(x, y, M, key, board):
-    for i in range(M):
-        for j in range(M):
-            board[x+i][y+j] += key[i][j]
+def rotate(key):
+    return list(zip(*key[::-1]))
 
-def detach(x, y, M, key, board):
-    for i in range(M):
-        for j in range(M):
-            board[x+i][y+j] -= key[i][j]
+def attach(i,j,rotated_key,board,M):
+    for x in range(M):
+        for y in range(M):
+            board[x+i][y+j] += rotated_key[x][y]
 
-def rotate90(arr):
-    return list(zip(*arr[::-1]))
-
+def detach(i,j,rotated_key,board,M):
+    for x in range(M):
+        for y in range(M):
+            board[x+i][y+j] -= rotated_key[x][y]
+            
 def check(board, M, N):
     for i in range(N):
         for j in range(N):
@@ -20,20 +20,21 @@ def check(board, M, N):
 
 def solution(key, lock):
     M, N = len(key), len(lock)
-
-    board = [[0] * (M*2 + N) for _ in range(M*2 + N)]
+    board = [[0]*(2*M+N) for _ in range(2*M+N)]
+    
     for i in range(N):
         for j in range(N):
             board[M+i][M+j] = lock[i][j]
-
+    
     rotated_key = key
     for _ in range(4):
-        rotated_key = rotate90(rotated_key)
-        for x in range(1, M+N):
-            for y in range(1, M+N):
-                attach(x, y, M, rotated_key, board)
-                if(check(board, M, N)):
+        rotated_key = rotate(rotated_key)
+        for i in range(1, M+N):
+            for j in range(1, M+N):
+                attach(i,j,rotated_key,board,M)
+                if check(board,M,N):
                     return True
-                detach(x, y, M, rotated_key, board)
-                
+                detach(i,j,rotated_key,board,M)
     return False
+        
+    
