@@ -1,13 +1,14 @@
 def solution(enroll, referral, seller, amount):
-    money = [0 for _ in range(len(enroll))]
-    dict = {}
-    for i, e in enumerate(enroll):
-        dict[e] = i
+    answer = [0 for _ in range(len(enroll))]
+    dic = {}
+    for idx, e in enumerate(enroll):
+        dic[e] = idx
+        
     for s, a in zip(seller, amount):
         m = a * 100
         while s != "-" and m > 0:
-            idx = dict[s]
-            money[idx] += m - m//10
+            idx = dic[s]
+            answer[idx] += m - m//10
             m //= 10
             s = referral[idx]
-    return money
+    return answer
