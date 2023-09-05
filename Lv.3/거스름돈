@@ -1,11 +1,9 @@
-DIV = 1000000007
-
-
 def solution(n, money):
-    dp = [1] + [0] * n
-
-    for coin in sorted(money):
-        for price in range(coin, n+1):
-            dp[price] = (dp[price] + dp[price - coin]) % DIV
-    print(dp)
+    dp = [0]* (n+1)
+    dp[0] = 1
+    money.sort()
+    
+    for m in money:
+        for i in range(m, n+1):
+            dp[i] = (dp[i] + dp[i-m])%1_000_000_007
     return dp[n]
