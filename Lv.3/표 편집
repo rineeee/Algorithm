@@ -1,45 +1,43 @@
 def solution(n, k, cmd):
     answer = ''
-
-    linked_list = {i: [i - 1, i + 1] for i in range(1, n+1)}
-    OX = ["O" for i in range(1,n+1)]
+    
+    linked_list = {i: [i - 1, i + 1] for i in range(n)}
     stack = []
-    k += 1
+    OX = ["O" for _ in range(n)]
+    
     for c in cmd:
-        if c[0] == 'D':
-            for _ in range(int(c[2:])):
-                k = linked_list[k][1]
-        elif c[0] == 'U':
+        if c[0] == "U":
             for _ in range(int(c[2:])):
                 k = linked_list[k][0]
-        elif c[0] == 'C':
-            prev, next = linked_list[k]
-            stack.append([prev, next, k])
-            OX[k-1] = "X"
-
-            if next == n+1:
-                k = linked_list[k][0]
-            else:
+        elif c[0] == "D":
+            for _ in range(int(c[2:])):
                 k = linked_list[k][1]
-
-            if prev == 0:
-                linked_list[next][0] = prev
-            elif next == n+1:
-                linked_list[prev][1] = next
+        elif c[0] == "C":
+            a, b = linked_list[k]
+            stack.append([a,b,k])
+            OX[k] = "X"
+            
+            k = linked_list[k][0] if b == n else linked_list[k][1]
+            
+            if a == -1:
+                linked_list[b][0] = -1
+            elif b == n:
+                linked_list[a][1] = n
             else:
-                linked_list[prev][1] = next
-                linked_list[next][0] = prev
-
-        elif c[0] == 'Z':
-            prev, next, now = stack.pop()
-            OX[now-1] = "O"
-
-            if prev == 0:
-                linked_list[next][0] = now
-            elif next == n+1:
-                linked_list[prev][1] = now
+                linked_list[a][1] = b
+                linked_list[b][0] = a
+        elif c[0] == "Z":
+            a, b, node = stack.pop()
+            OX[node] = "O"
+            
+            if a == -1:
+                linked_list[b][0] = node
+            elif b == n:
+                linked_list[a][1] = node
             else:
-                linked_list[prev][1] = now
-                linked_list[next][0] = now
-
+                linked_list[a][1] = node
+                linked_list[b][0] = node
     return "".join(OX)
+                
+            
+    
