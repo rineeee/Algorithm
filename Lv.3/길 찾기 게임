@@ -1,40 +1,41 @@
 from collections import deque
 
 def solution(nodeinfo):
-    answer = [[], []]
-    nodes = [[nodeinfo[i][0], nodeinfo[i][1], i + 1] for i in range(len(nodeinfo))]   
-    nodes = sorted(nodes, key=lambda k: (-k[1], k[0]))
-    mdict = {}
+    answer = [[],[]]
+    nodes = [[n[0],n[1],idx+1] for idx, n in enumerate(nodeinfo)]
+    nodes = sorted(nodes, key= lambda x: (-x[1], x[0]))
+    dic = {}
 
-    for x, y, idx in nodes:                 
-        mdict[idx] = [x, y, None, None]	    
+    for x, y, idx in nodes:        
+        dic[idx] = [x,y,None,None]
         curr = nodes[0][2]
         while True:
-            if x > mdict[curr][0]:         
-                if mdict[curr][3] == None:  
-                    mdict[curr][3] = idx
+            if x > dic[curr][0]:
+                if dic[curr][3] == None:
+                    dic[curr][3] = idx
                     break
-                curr = mdict[curr][3]
-            elif x < mdict[curr][0]:        
-                if mdict[curr][2] == None:  
-                    mdict[curr][2] = idx
+                curr = dic[curr][3]
+            elif x < dic[curr][0]:
+                if dic[curr][2] == None:
+                    dic[curr][2] = idx
                     break
-                curr = mdict[curr][2]
+                curr = dic[curr][2]
             else:
                 break
-    for idx, order in enumerate([[3,2],[2,3]]): # 0:preorder, 1:postorder
-        stack = [nodes[0][2]]                   # root node
+    
+    for idx, order in [[0,[3,2]],[1,[2,3]]]: # pre, post
+        stack = [nodes[0][2]] # root
         result = deque()
         while stack:
             curr = stack.pop()
             if idx == 0:
-                result.append(curr)            
+                result.append(curr)
             else:
                 result.appendleft(curr)
-                
-            for child in order:                 
-                if mdict[curr][child] != None: 
-                    stack.append(mdict[curr][child])
-                    
+            
+            for child in order:
+                if dic[curr][child] != None: 
+                    stack.append(dic[curr][child])    
         answer[idx] = list(result)
     return answer
+        
