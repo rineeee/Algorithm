@@ -1,16 +1,15 @@
 def solution(scores):
     answer = 1
-
-    target = scores[0]
-    target_score = sum(scores[0])
+    a, b = scores[0][0], scores[0][1]
+    sum_ = a+b
     scores.sort(key=lambda x: (-x[0], x[1]))
-
-    threshold = 0
-    for score in scores:
-        if target[0] < score[0] and target[1] < score[1]:
+    
+    x = 0
+    for i in range(len(scores)):
+        if a < scores[i][0] and b < scores[i][1]:
             return -1
-        if threshold <= score[1]:
-            if target_score < score[0] + score[1]:
+        if scores[i][1] >= x:
+            if sum_ < scores[i][0] + scores[i][1]:
                 answer += 1
-            threshold = score[1]
+            x = scores[i][1]
     return answer
