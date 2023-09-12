@@ -1,0 +1,43 @@
+n = int(input())
+arr = []
+
+for _ in range(n):
+    arr.append(input())
+
+answer = ""
+
+start, end = 0, len(arr) - 1
+while start <= end:
+    if arr[start] > arr[end]:
+        answer += arr[end]
+        end -= 1
+    elif arr[start] < arr[end]:
+        answer += arr[start]
+        start += 1
+    else:
+        t_s, t_e = start+1, end-1
+        flag = False
+        while t_s <= t_e:
+            if arr[t_s] > arr[t_e]:
+                answer += arr[end]
+                end -= 1
+                flag = True
+                break
+            elif arr[t_s] < arr[t_e]:
+                answer += arr[start]
+                start += 1
+                flag = True
+                break
+            else:
+                t_s += 1
+                t_e -= 1
+        if not flag:
+            answer += arr[start]
+            start += 1
+answer = list(answer)
+cnt = 0
+for a in answer:
+    print(a, end='')
+    cnt += 1
+    if cnt % 80 == 0:
+        print()
