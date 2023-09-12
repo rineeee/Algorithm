@@ -1,0 +1,23 @@
+from sys import stdin
+
+n = int(input())
+arr = list(map(int, stdin.readline().split()))
+arr.sort()
+x = int(input())
+
+answer = 0
+l, r = 0, n-1
+while l < r:
+    tmp = arr[l] + arr[r]
+    if tmp == x:
+        answer += 1
+        l += 1
+        r -= 1
+    elif tmp < x:
+        l += 1
+    else:
+        r -= 1
+print(answer)
+
+
+
