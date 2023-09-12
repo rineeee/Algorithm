@@ -1,18 +1,19 @@
-import sys
-input = lambda: sys.stdin.readline().rstrip()
-
-n = int(input())
+N = int(input())
 time = []
-for _ in range(n):
+
+
+for i in range(N):
     start, end = map(int, input().split())
     time.append([start, end])
 
-time.sort(key=lambda x: (x[0],x[1]))
+time = sorted(time, key = lambda a : (a[1], a[0]))
 
-last = 0
-answer = 0
-for i,j in time:
-    if i >= last:
-        answer += 1
-        last = j
-print(answer)
+last_end = 0
+cnt = 0
+
+for start, end in time:
+    if start >= last_end:
+        cnt += 1
+        last_end = end
+
+print(cnt)
