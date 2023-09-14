@@ -1,0 +1,22 @@
+import sys
+input = lambda : sys.stdin.readline().rstrip()
+
+def solution(s):
+    k,m = -1,-1
+    for i in range(len(s)-1):
+        if s[i] < s[i+1]:
+            k = i
+    if k == -1:
+        return s
+    for i in range(len(s)-1,-1,-1):
+        if s[k] < s[i]:
+            m = i
+            break
+    s[k], s[m] = s[m], s[k]
+    l = s[:k+1]
+    l.extend(list(reversed(s[k+1:])))
+    return l
+
+n = int(input())
+for _ in range(n):
+    print(''.join(solution(list(input()))))
