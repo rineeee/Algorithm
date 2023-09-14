@@ -1,0 +1,20 @@
+import sys
+input = lambda : sys.stdin.readline().rstrip()
+
+def solution(arr):
+    stack = []
+    for i in arr:
+        if i == "(":
+            stack.append(i)
+        else:
+            if stack:
+                stack.pop()
+            else:
+                return "NO"
+    if stack:
+        return "NO"
+    return "YES"
+
+n = int(input())
+for _ in range(n):
+    print(solution(list(input())))
