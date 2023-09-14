@@ -1,0 +1,11 @@
+import sys
+input = lambda : sys.stdin.readline().rstrip()
+
+def solution(s):
+    croatia = ['c=', 'c-', 'dz=', 'd-', 'lj', 'nj', 's=', 'z=']
+    for c in croatia:
+        s = s.replace(c,'*')
+    return len(s)
+
+s = input()
+print(solution(s))
