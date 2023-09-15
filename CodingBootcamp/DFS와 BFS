@@ -1,0 +1,42 @@
+import sys
+from collections import deque
+input = lambda : sys.stdin.readline().rstrip()
+
+def bfs(start):
+    que = deque()
+    que.append(start)
+    visited[start] = True
+
+    while que:
+        tmp = que.popleft()
+        print(tmp, end= " ")
+        for i in graph[tmp]:
+            if not visited[i]:
+                que.append(i)
+                visited[i] = True
+def dfs(start):
+    visited[start] = True
+    print(start, end= " ")
+
+    for i in graph[start]:
+        if not visited[i]:
+            dfs(i)
+
+
+n, m, v = map(int,input().split())
+graph = [[] for _ in range(n+1)]
+for _ in range(m):
+    a,b = map(int, input().split())
+    graph[a].append(b)
+    graph[b].append(a)
+
+for i in graph:
+    i.sort()
+
+visited = [False] * (n+1)
+dfs(v)
+print()
+
+visited = [False] * (n+1)
+bfs(v)
+print()
