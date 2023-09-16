@@ -1,0 +1,25 @@
+import sys
+input = lambda : sys.stdin.readline().rstrip()
+re = [0,0]
+
+def solution(x, y, n):
+    curr = board[x][y]
+    for i in range(x, x+n):
+        for j in range(y, y+n):
+            if board[i][j] != curr:
+                solution(x,y,n//2)
+                solution(x+n//2,y,n//2)
+                solution(x,y+n//2,n//2)
+                solution(x+n//2,y+n//2,n//2)
+                return
+    if curr == 0:
+        re[0] += 1
+    else:
+        re[1] += 1
+
+
+n = int(input())
+board = [list(map(int, input().split())) for _ in range(n)]
+solution(0,0,n)
+print(re[0])
+print(re[1])
