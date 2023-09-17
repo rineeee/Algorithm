@@ -1,0 +1,22 @@
+class Solution(object):
+    def smallestDistancePair(self, nums, k):
+		def getPairs(diff):
+			l = 0
+			count = 0
+			for r in range(len(nums)):
+				while nums[r] - nums[l] > diff:
+					l += 1
+				count += r - l
+			return count
+
+		nums.sort()
+		l, r = 0, nums[-1] - nums[0]
+		while l <= r:
+			mid = (l + r) // 2
+			res = getPairs(mid)
+			if res >= k:
+				r = mid - 1
+			else:
+				l = mid + 1
+
+		return l
