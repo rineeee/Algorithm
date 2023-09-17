@@ -8,6 +8,6 @@ class Solution:
             return string
             
         def round_down(num):
-            return math.floor(float(num) * 10 ** 8 + 0.3) / 10 ** 8
+            return math.floor(float(num) * 10 ** 8 + 0.3)
         
         return round_down(convert(s)) == round_down(convert(t))
