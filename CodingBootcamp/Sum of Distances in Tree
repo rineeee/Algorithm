@@ -1,24 +1,52 @@
 class Solution(object):
     def sumOfDistancesInTree(self, n, edges):
-        graph = [[] for _ in range(n)]
-        for a, b in edges:
-            graph[a].append(b)
-            graph[b].append(a)
-        
-        def bfs(node):
-            visited = set()
-            path_sum = 0
-            que = deque([node])
-            path_len = 1
-            while que:
-                for _ in range(len(que)):
-                    tmp = que.popleft()
-                    visited.add(tmp)
-                    for child in graph[tmp]:
-                        if child not in visited:
-                            path_sum += path_len
-                            que.append(child)
-                path_len += 1
-            return path_sum
+        def build():
+            for edge in edges:
+                adj_list[edge[0]].append(edge[1])
+                adj_list[edge[1]].append(edge[0])
 
-        return [bfs(i) for i in range(n)]
+        def bfs(node = 0):
+            visited = set()
+            paths_sum = 0
+            queue = deque([node])
+            
+            path_len = 1
+            while queue:
+                for _ in range(len(queue)):
+                    node = queue.popleft()
+                    visited.add(node)
+                    for child in adj_list[node]:
+                        if child not in visited:
+                            paths_sum += path_len
+                            queue.append(child)
+                path_len += 1
+
+            return paths_sum
+
+        def calc_subtree_sizes(node = 0, parent=None):
+            for child in adj_list[node]:
+                if child != parent:
+                    calc_subtree_sizes(child, node)
+                    counts[node] += counts[child]
+
+        def bfs2(node = 0):
+            visited = set()
+            queue = deque([node])
+            
+            while queue:
+                for _ in range(len(queue)):
+                    node = queue.popleft()
+                    visited.add(node)
+                    for child in adj_list[node]:
+                        if child not in visited:
+                            res[child] = res[node] - counts[child] + (n - counts[child])
+                            queue.append(child)
+
+        adj_list = defaultdict(list)
+        build()
+        counts = [1] * n
+        res = [0] * n
+        res[0] = bfs() # dfs()
+        calc_subtree_sizes()
+        bfs2() # dfs2()
+        return res
