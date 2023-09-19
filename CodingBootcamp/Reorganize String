@@ -1,0 +1,17 @@
+class Solution(object):
+    def reorganizeString(self, s):
+        c = Counter(s)
+        h = [(-count, l) for l, count in c.items()]
+        heapq.heapify(h)
+        re = []
+        p_c, p_l = 0, ''
+        while h:
+            count, l = heapq.heappop(h)
+            re.append(l)
+            if p_c < 0:
+                heapq.heappush(h,(p_c, p_l))
+            p_c, p_l = count+1, l
+        if len(re) == len(s):
+            return ''.join(re)
+        else:
+            return ''
