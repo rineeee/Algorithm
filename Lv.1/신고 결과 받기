@@ -1,11 +1,19 @@
 def solution(id_list, reports, k):
-    dic_report = {id: [] for id in id_list}
-    answer = [0] * len(id_list)
-    for report in set(reports):
-        report = report.split(' ')
-        dic_report[report[1]].append(report[0])
-    for key, value in dic_report.items():
-        if len(value) >= k:
-            for v in value:
-                answer[id_list.index(v)] += 1
+    answer = []
+    dic = {id : 0 for id in id_list}
+    report_dic = {id: [] for id in id_list}
+    for re in reports:
+        tmp = re.split()
+        if tmp[1] not in report_dic[tmp[0]]:
+            report_dic[tmp[0]].append(tmp[1])
+            dic[tmp[1]] += 1
+    
+    for id in id_list:
+        tmp = 0
+        for re in report_dic[id]:
+            if dic[re] >= k:
+                tmp += 1
+        answer.append(tmp)
     return answer
+        
+    
