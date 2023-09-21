@@ -1,20 +1,20 @@
-def time_convert(t) :
-    year, month, day = map(int, t.split('.'))
-    return year * 12 * 28 + month * 28 + day
+def parser(date):
+    y, m, d = map(int, date.split('.'))
+    return y*12*28 + m*28 + d
 
 def solution(today, terms, privacies):
-    term_dict = dict()
-    today = time_convert(today)
-    answer = []    
+    answer = []
+    today = parser(today)
+    term_dic = {}
+    for t in terms:
+        tmp = t.split()
+        term_dic[tmp[0]] = int(tmp[1]) * 28
     
-    for term in terms :
-        name, period = term.split()
-        term_dict[name] = int(period) * 28
-    
-    for idx, privacy in enumerate(privacies) :
-        start, name = privacy.split()
-        end = time_convert(start) + term_dict[name]
-        if end <= today :
-            answer.append(idx+1)    
-    
+    for idx, p in enumerate(privacies):
+        tmp = p.split()
+        time = parser(tmp[0])
+        until = term_dic[tmp[1]]
+        
+        if time + until <= today:
+            answer.append(idx+1)
     return answer
