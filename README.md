@@ -21,3 +21,4 @@ leetcode
 
 [전공] CodingBootcamp
 - 코딩테스트 과목 시험 연습
+- PASS
