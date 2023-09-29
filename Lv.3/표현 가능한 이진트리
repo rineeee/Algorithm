@@ -1,37 +1,40 @@
-def division_search(left, right, arr):
+def check(left, right, binary):
     global flag
+    
     if left == right:
-        return arr[left]
+        return 
     mid = (left + right) // 2
-    if arr[mid] == '0':
+    if binary[mid] == '0':
         for i in range(left, mid):
-            if arr[i] == '1':
+            if binary[i] == '1':
                 flag = False
                 return
         for i in range(mid + 1, right + 1):
-            if arr[i] == '1':
+            if binary[i] == '1':
                 flag = False
                 return
-    division_search(left, mid - 1, arr)
-    division_search(mid + 1, right, arr)
-    
+    check(left, mid - 1, binary)
+    check(mid + 1, right, binary)
+        
+
 def solution(numbers):
     global flag
     answer = []
-    for n in numbers:
+    for number in numbers:
         flag = True
-        n = bin(n).replace('0b', '')
-        index = 1
-        node_count = 0
-        while 1:
-            if pow(2, index) - 1 >= len(n):
-                node_count = pow(2, index) - 1
+        binary = bin(number)[2:]
+        n = 0
+        while True:
+            if len(binary) <= 2**n-1:
                 break
-            index += 1
-        n = list(('0' * (node_count - len(n))) + n)
-        division_search(0, len(n) - 1, n)
+            n += 1
+        binary = '0'*(2**n-1 - len(binary)) + binary
+        check(0, len(binary)-1, binary)
         if flag:
             answer.append(1)
         else:
             answer.append(0)
     return answer
+            
+        
+        
