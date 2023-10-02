@@ -1,4 +1,4 @@
-def calculate_n(X, Y):
+def calc(X, Y):
     n_set = set()
     for x in X:
         for y in Y:
@@ -11,20 +11,19 @@ def calculate_n(X, Y):
 
 def solution(N, number):
     answer = -1
-    result = {}   
-    result[1] = {N} 
-    if number == N:
+    if N == number:
         return 1
-    for n in range(2, 9): 
+    result = {1:{N}}
+    for num in range(2,9):
+        s = set()
         i = 1
-        temp_set = {int(str(N)*n)} 
-        while i < n:
-            temp_set.update(calculate_n(result[i], result[n-i]))
+        s.add(int(str(N)*num))
+        while i < num:
+            s.update(calc(result[i],result[num-i]))
             i += 1
-        if number in temp_set:
-            answer = n
-            break
-
-        result[n] = temp_set
-
+        if number in s:
+            return num
+        result[num] = s
     return answer
+        
+        
