@@ -1,50 +1,44 @@
 from collections import deque
 
-def get_next_pos(pos, board):
+def get_next_pos(curr, board):
     next_pos = []
-    pos = list(pos)
-    fx, fy = pos[0]
-    bx, by = pos[1]
-    dirs = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+    curr = list(curr)
+    nx, ny = curr[0]
+    mx, my = curr[1]
     
-    for dx, dy in dirs:
-        nfx, nfy = fx + dx, fy + dy
-        nbx, nby = bx + dx, by + dy
-        if board[nfx][nfy] == board[nbx][nby] == 0:
-            next_pos.append({(nfx, nfy), (nbx, nby)})
+    for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+        nnx, nny = nx + dx, ny + dy
+        mmx, mmy = mx + dx, my + dy
+        if  board[nnx][nny] == board[mmx][mmy] == 0:
+            next_pos.append({(nnx,nny),(mmx,mmy)})
     
-    if fx == bx:
-        for i in [1, -1]:
-            if board[fx + i][fy] == board[bx + i][by] == 0:
-                next_pos.append({(fx, fy), (fx + i, fy)})
-                next_pos.append({(bx, by), (bx + i, by)})
-    elif fy == by:
-        for i in [1, -1]:
-            if board[fx][fy + i] == board[bx][by + i] == 0:
-                next_pos.append({(fx, fy), (fx, fy + i)})
-                next_pos.append({(bx, by), (bx, by + i)})
-    
+    if nx == mx:
+        for i in [1,-1]:
+            if board[nx+i][ny] == board[mx+i][my] == 0:
+                next_pos.append({(nx,ny),(nx+i,ny)})
+                next_pos.append({(mx,my),(mx+i,my)})
+    if ny == my:
+        for i in [1,-1]:
+            if board[nx][ny+i] == board[mx][my+i] == 0:
+                next_pos.append({(nx,ny),(nx,ny+i)})
+                next_pos.append({(mx,my),(mx,my+i)})
     return next_pos
-        
-                
-                
+    
 def solution(board):
-    answer = 0
     n = len(board)
+    q = deque()
+    q.append([{(1,1),(1,2)},0])
+    visited = []
     new_board = [[1] * (n + 2) for _ in range(n + 2)]
     for i in range(n):
         for j in range(n):
             new_board[i + 1][j + 1] = board[i][j]
     
-    q = deque([({(1, 1), (1, 2)}, 0)])
-    visited = []
-    
     while q:
-        pos, cost = q.popleft()
-        if (n, n) in pos:
-            return cost
-        for next_pos in get_next_pos(pos, new_board):
+        curr, cnt = q.popleft()
+        if (n, n) in curr:
+            return cnt
+        for next_pos in get_next_pos(curr, new_board):
             if next_pos not in visited:
                 visited.append(next_pos)
-                q.append((next_pos, cost + 1))
-    return answer
+                q.append((next_pos,cnt+1))
