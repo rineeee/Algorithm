@@ -1,33 +1,28 @@
-from collections import deque
+from collections import defaultdict
 import sys
-sys.setrecursionlimit(300000)
+sys.setrecursionlimit(1000000)
 
-def search(x,a,narr):
-    global vis
-    global n
+def solution(a, edges):    
     global answer
-    cur = a[x]
-    vis[x] = 1
-    for nxt in narr[x]:
-        if vis[nxt] == 0:
-            cur += search(nxt,a,narr)
-
-    answer += abs(cur)
-    return cur
-
-def solution(a, edges):
-    global vis
-    global n
-    global answer
-    if sum(a):
+    if sum(a) != 0:
         return -1
+    
     answer = 0
-    n = len(a)
-    vis = [0]*n
-    narr = [[] for _ in range(n)]
-    for s,e in edges:
-        narr[s].append(e)
-        narr[e].append(s)
-    search(0,a,narr)
-
+    tree = defaultdict(list)
+    for i, j in edges:
+        tree[i].append(j)
+        tree[j].append(i)
+    visited = [False] * len(a)
+    
+    def dfs(x):
+        global answer
+        curr = a[x]
+        visited[x] = True     
+        for i in tree[x]:
+            if not visited[i]:
+                curr += dfs(i) 
+        answer += abs(curr)
+        return curr              
+    dfs(0)
     return answer
+    
