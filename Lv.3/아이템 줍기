@@ -2,36 +2,27 @@ from collections import deque
 
 def solution(rectangle, characterX, characterY, itemX, itemY):
     answer = 0
-
-    field = [[-1] * 102 for i in range(102)]
-    
+    maps = [[-1] * 102 for _ in range(102)]   
     for r in rectangle:
-        x1, y1, x2, y2 = map(lambda x: x*2, r)
+        x1, y1, x2, y2 = map(lambda x: x*2 ,r)
         for i in range(x1, x2+1):
             for j in range(y1, y2+1):
                 if x1 < i < x2 and y1 < j < y2:
-                    field[i][j] = 0
-                elif field[i][j] != 0:
-                    field[i][j] = 1         
-    dx = [-1, 1, 0, 0]
-    dy = [0, 0, -1, 1]
-    
+                    maps[i][j] = 0
+                elif maps[i][j] != 0:
+                    maps[i][j] = 1     
+                    
     q = deque()
-    q.append([characterX * 2, characterY * 2])
-    visited = [[1] * 102 for i in range(102)] 
-    visited[characterX * 2][characterY * 2] = 0
+    q.append([characterX * 2, characterY * 2, 0])
+    visited = [[False] * 102 for i in range(102)] 
+    visited[characterX * 2][characterY * 2] = True
     
     while q:
-        x, y = q.popleft()
+        x, y, cnt = q.popleft()
         if x == itemX * 2 and y == itemY * 2:
-            answer = visited[x][y] // 2
-            break
-        for k in range(4):
-            nx = x + dx[k]
-            ny = y + dy[k]
-            
-            if field[nx][ny] == 1 and visited[nx][ny] == 1:
-                q.append([nx, ny])
-                visited[nx][ny] = visited[x][y] + 1
-    
-    return answer
+            return cnt //2
+        for dx, dy in [(-1,0),(1,0),(0,1),(0,-1)]:
+            nx, ny = x+dx, y+dy
+            if 0<nx<102 and 0<ny<102 and not visited[nx][ny]and maps[nx][ny] ==1:
+                visited[nx][ny] = True
+                q.append([nx,ny,cnt+1])
