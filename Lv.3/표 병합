@@ -19,9 +19,8 @@ def UPDATE(r, c, msg) :
 def UPDATE_VAL(msg1, msg2):
     for r in range(51) :
         for c in range(51) :
-            pr, pc = find(r, c)
-            if cells[pr][pc] == msg1 :
-                cells[pr][pc] = msg2
+            if cells[r][c] == msg1 :
+                cells[r][c] = msg2
     
 def MERGE(r1, c1, r2, c2) :
     r1, c1 = find(r1, c1)
