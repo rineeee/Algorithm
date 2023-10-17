@@ -1,32 +1,24 @@
 def solution(lines):
     answer = 0
-    start_time = []
-    end_time = []
+    log = [] # log의 (시작시간, 끝시간) 저장
 
-    for t in lines:
-        time = t.split(" ")
-        start_time.append(get_start_time(time[1], time[2]))
-        end_time.append(get_time(time[1]))
-    for i in range(len(lines)):
-        cnt = 0
-        cur_end_time = end_time[i]
-        # i번째는 현재 자신의 시작시간이고, i 이하는 그 이전의 시작시간이므로 카운트 할 필요가 없다.
-        for j in range(i, len(lines)):
-            if cur_end_time > start_time[j] - 1000:
-                cnt += 1
-        answer = max(answer, cnt)
+    for line in lines:
+        date, s, t = line.split()
+        s = s.split(':')
+        t = t.replace('s', '')
+
+        end = (int(s[0])*3600 + int(s[1])*60 + float(s[2])) * 1000
+        start = end - float(t)*1000 + 1
+        log.append([start, end])
+
+    for x in log:
+        answer = max(answer, throughput(log, x[0], x[0] + 1000), throughput(log, x[1], x[1] + 1000))
+
     return answer
 
-
-def get_time(time):
-    hour = int(time[:2]) * 3600
-    minute = int(time[3:5]) * 60
-    second = int(time[6:8])
-    millisecond = int(time[9:])
-    return (hour + minute + second) * 1000 + millisecond
-
-
-def get_start_time(time, duration_time):
-    n_time = duration_time[:-1]
-    int_duration_time = int(float(n_time) * 1000)
-    return get_time(time) - int_duration_time + 1
+def throughput(log, start, end):
+    cnt = 0
+    for x in log:
+        if x[0] < end and x[1] >= start:
+            cnt += 1
+    return cnt
