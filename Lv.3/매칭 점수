@@ -1,12 +1,12 @@
 def solution(word, pages):
     word = word.lower()
+    # {url : index, 기본점수, 외부링크수, 기본점수(이후 매칭점수)}
     web_info = make_web_info(word, pages)
     score, answer = calc_link_score(web_info)
     return answer
 
 
 def calc_link_score(web_info):
-
     for url in web_info:
         now = web_info[url]
         for link in now['links']:
@@ -30,7 +30,7 @@ def calc_link_score(web_info):
 def make_web_info(word, pages):
     web_info = {}
     index = 0
-
+    
     for page in pages:
         url = search_url(page).strip()
         count = search_word(word,page)
