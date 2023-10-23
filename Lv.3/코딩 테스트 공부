@@ -1,13 +1,14 @@
 def solution(alp, cop, problems):
-    inf = 10 ** 6
     problems.append([0,0,0,1,1])
     problems.append([0,0,1,0,1])
     max_alp, max_cop = max([i[0] for i in problems]), max([i[1] for i in problems])
-    dp = [[inf for _ in range(max_alp + 1)] for _ in range(max_cop + 1)]
+    # dp[i][j]: 알고력 i, 코딩력 j을 도달 할 수 있는 최단시간
+    dp = [[float('inf') for _ in range(max_alp + 1)] for _ in range(max_cop + 1)]
     if max_alp <= alp:
         alp = max_alp
     if max_cop <= cop:
         cop = max_cop
+
     dp[cop][alp] = 0
     for i in range(cop, max_cop + 1):
         for j in range(alp, max_alp + 1):
