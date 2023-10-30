@@ -1,8 +1,7 @@
 def solution(n, m, x, y, queries):
     answer = 0
-    # 공이 한번에 움직인다고 생각한다
+    # 쿼리를 역으로 생각한다
     # 공의 범위를 사각형으로 두고 생각해보자
-    # 역으로 생각한다
     queries.reverse()
     xMin, xMax, yMin, yMax = x, x, y, y
     for ty, dx in queries:
