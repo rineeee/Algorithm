@@ -2,30 +2,20 @@ import java.util.*;
 
 public class Solution {
     public String solution(int[] numbers) {
-        StringBuilder answer = new StringBuilder();
         String[] strNumbers = new String[numbers.length];
 
         for (int i = 0; i < numbers.length; i++) {
             strNumbers[i] = Integer.toString(numbers[i]);
         }
-
-        Arrays.sort(strNumbers, new Comparator<String>() {
-            @Override
-            public int compare(String s1, String s2) {
-                String concat1 = s1 + s2;
-                String concat2 = s2 + s1;
-                return concat2.compareTo(concat1);
-            }
-        });
-
-        for (String str : strNumbers) {
-            answer.append(str);
-        }
-
+        
+        Arrays.sort(strNumbers, (s1, s2) -> (s2 + s1).compareTo(s1 + s2));
+        
+        String answer = String.join("", strNumbers);
+        
         if (answer.charAt(0) == '0') {
             return "0";
         }
 
-        return answer.toString();
+        return answer;
     }
 }
