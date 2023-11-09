@@ -1,0 +1,51 @@
+import java.util.*;
+
+class Solution {
+    boolean[][] graph;
+    
+    public int solution(int n, int[][] wires) {
+        int answer = n;
+        graph = new boolean[n+1][n+1];
+
+        for (int[] wire: wires) {
+            graph[wire[0]][wire[1]] = true;
+            graph[wire[1]][wire[0]] = true;
+        }
+        
+        for(int i=0; i<wires.length; i++){
+            int from = wires[i][0], to = wires[i][1];
+            graph[from][to] = false;
+            graph[to][from] = false;
+            
+            answer = Math.min(answer, bfs(n, from));
+            graph[from][to] = true;
+            graph[to][from] = true;
+            
+        }
+        return answer;
+    }
+    
+    public int bfs(int n, int x){
+        boolean[] visited = new boolean[n+1];
+        int count = 1;
+        
+        Queue<Integer> que = new LinkedList<Integer>();
+        visited[x] = true;
+        que.add(x);
+        
+        while(!que.isEmpty()){
+            int temp = que.poll();
+            
+            for(int i=1; i<=n; i++){
+                if(graph[temp][i] && !visited[i]){
+                    visited[i] = true;
+                    que.offer(i);
+                    count ++;
+                }
+            }
+        }
+        
+        return (int)Math.abs(count-(n-count));
+    }
+
+}
