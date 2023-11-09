@@ -1,0 +1,14 @@
+class Solution {
+    public int[] solution(int brown, int yellow) {
+        int other;
+        for(int i=3; i<=(int)Math.sqrt(brown+yellow); i++){
+            if ((brown + yellow) % i == 0){
+                other = (brown+yellow) / i;
+                if ((2*(i+other) -4) == brown){
+                    return new int[] {Math.max(i,other), Math.min(i,other)};
+                }
+            }
+        }
+        return null;
+    }
+}
