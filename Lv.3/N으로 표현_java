@@ -1,0 +1,43 @@
+import java.util.*;
+
+class Solution {
+    public static Set<Integer> calc(HashSet<Integer> X, HashSet<Integer> Y) {
+        HashSet<Integer> nSet = new HashSet<>();
+        for (Integer x : X) {
+            for (Integer y : Y) {
+                nSet.add(x + y);
+                nSet.add(x - y);
+                nSet.add(x * y);
+                if (y != 0) {
+                    nSet.add(x / y);
+                }
+            }
+        }
+        return nSet;
+    }
+
+    public static int solution(int N, int number) {
+        int answer = -1;
+        if (N == number) {
+            return 1;
+        }
+        HashSet<Integer>[] result = new HashSet[9];
+        result[1] = new HashSet<>();
+        result[1].add(N);
+
+        for (int num = 2; num < 9; num++) {
+            HashSet<Integer> s = new HashSet<>();
+            int i = 1;
+            s.add(Integer.parseInt(String.valueOf(N).repeat(num)));
+            while (i < num) {
+                s.addAll(calc(result[i], result[num - i]));
+                i++;
+            }
+            if (s.contains(number)) {
+                return num;
+            }
+            result[num] = s;
+        }
+        return answer;
+    }
+}
