@@ -1,0 +1,19 @@
+import java.util.Arrays;
+
+class Solution {
+    public int solution(int[] people, int limit) {
+        int answer=0, x = 0, y=(people.length -1);
+        Arrays.sort(people);
+        while (x<=y){
+            if(people[x] + people[y] > limit){
+                y --;
+                answer += 1;
+            } else{
+                y--;
+                x++;
+                answer+=1;
+            }
+        }
+        return answer;
+    }
+}
