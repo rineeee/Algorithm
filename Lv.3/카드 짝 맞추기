@@ -1,6 +1,7 @@
 from collections import defaultdict, deque
 from itertools import permutations
 from copy import deepcopy
+
 def move_cost(board, start, end):   # 조작 횟수 Count
     if start==end: return 0
     queue, visit = deque([[start[0], start[1], 0]]), {start}
