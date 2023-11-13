@@ -1,0 +1,33 @@
+class Solution {
+    public int solution(String arr[]) {
+        int last = arr.length / 2;
+        int [][][] cache = new int [last + 1][last + 1][];
+        int answer = minmax(arr, 0, last, cache)[1];
+        return answer;
+    }
+
+    public int [] minmax(String arr[], int start, int end, int [][][] cache) {
+        if (cache[start][end] == null) {
+            int min = Integer.MAX_VALUE;
+            int max = Integer.MIN_VALUE;
+            if (start == end) {
+                min = Integer.valueOf(arr[start * 2]);
+                max = min;
+            } else {
+                for (int i = start; i < end; i++) {
+                    int [] f = minmax(arr, start, i, cache);
+                    int [] r = minmax(arr, i + 1, end, cache);
+                    if ("+".equals(arr[i * 2 + 1])) {
+                        min = Math.min(min, f[0] + r[0]);
+                        max = Math.max(max, f[1] + r[1]);
+                    } else {
+                        min = Math.min(min, f[0] - r[1]);
+                        max = Math.max(max, f[1] - r[0]);
+                    }
+                }   
+            }
+            cache[start][end] = new int[] {min, max};
+        }
+        return cache[start][end];
+    }
+}
