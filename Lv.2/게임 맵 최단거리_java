@@ -1,0 +1,35 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
+class Solution {
+    public int solution(int[][] maps) {
+        int n = maps.length;
+        int m = maps[0].length;  
+        boolean[][] visited = new boolean[n][m];
+        int[][] dxy = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}}; 
+        Queue<int[]> q = new LinkedList<>();
+        q.add(new int[]{0,0,1});
+        
+        while(!q.isEmpty()){
+            int[] curr = q.poll();
+            int x = curr[0];
+            int y = curr[1];
+            int d = curr[2];
+            
+            for (int[] dir: dxy){
+                int newX =x+dir[0];
+                int newY =y+dir[1];
+                if (newX == n-1 && newY == m-1){
+                    return d+1;
+                }
+                if(newX>=0 && newX<n && newY>=0 && newY<m && maps[newX][newY] !=0){
+                    if (!visited[newX][newY]){
+                        visited[newX][newY] = true;
+                        q.add(new int[]{newX, newY, d+1});
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+}
