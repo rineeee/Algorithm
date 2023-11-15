@@ -1,0 +1,30 @@
+import java.util.*;
+
+class Solution {
+    public String[] solution(String[][] tickets) {
+        List<String> answerList = new ArrayList<>();
+        
+        Map<String, PriorityQueue<String>> map = new HashMap<>();
+        for (String[] ticket : tickets) {
+            String from = ticket[0];
+            String to = ticket[1];
+            map.computeIfAbsent(from, k -> new PriorityQueue<>()).add(to);
+        }
+        
+        Stack<String> stack = new Stack<>();
+        stack.push("ICN");
+        
+        while (!stack.isEmpty()) {
+            String current = stack.peek();
+            
+            if (!map.containsKey(current) || map.get(current).isEmpty()) {
+                answerList.add(stack.pop());
+            } else {
+                stack.push(map.get(current).poll());
+            }
+        }
+        
+        Collections.reverse(answerList);
+        return answerList.toArray(new String[0]);
+    }
+}
