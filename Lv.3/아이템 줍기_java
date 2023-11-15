@@ -1,0 +1,42 @@
+import java.util.*;
+
+public class Solution {
+    static int[] dx = {-1, 1, 0, 0};
+    static int[] dy = {0, 0, -1, 1};
+    
+    public int solution(int[][] rectangle, int characterX, int characterY, int itemX, int itemY) {
+        int[][] maps = new int[102][102];
+        boolean[][] visited = new boolean[102][102];
+        
+        for (int[] rec : rectangle){
+            int x1 = rec[0]*2, y1=rec[1]*2, x2=rec[2]*2, y2=rec[3]*2;
+            for (int i=x1; i<=x2; i++){
+                for (int j=y1; j<=y2; j++){
+                    if (x1 < i && i < x2 && y1 < j && j < y2){
+                        maps[i][j] = -1;
+                    } else if (maps[i][j] != -1){
+                        maps[i][j] = 1;
+                    }
+                }
+            }
+        }
+        
+        Queue<int[]> q = new LinkedList<>();
+        q.add(new int[]{characterX * 2, characterY * 2, 0});
+        visited[characterX * 2][characterY * 2] = true;
+        
+        while (!q.isEmpty()){
+            int[] curr = q.poll();
+            int x = curr[0], y = curr[1], cnt = curr[2];
+            if (x == itemX * 2 && y == itemY * 2) return cnt / 2;
+            for (int i = 0; i < 4; i++){
+                int nx = x + dx[i], ny = y + dy[i];
+                if (0 <= nx && nx <= 101 && 0 <= ny && ny <= 101 && !visited[nx][ny] && maps[nx][ny] == 1){
+                    visited[nx][ny] = true;
+                    q.add(new int[]{nx, ny, cnt + 1});
+                }
+            }
+        }
+        return -1;
+    }
+}
