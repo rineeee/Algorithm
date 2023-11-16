@@ -1,0 +1,109 @@
+import java.util.*;
+
+public class Solution {
+    private static List<List<int[]>> finding(int[][] mat, int num) {
+        List<List<int[]>> arr = new ArrayList<>();
+        int n = mat.length;
+        int[][] visit = new int[n][n];
+
+        int[] dr = {0, 0, 1, -1};
+        int[] dc = {1, -1, 0, 0};
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (mat[i][j] != num || visit[i][j] != 0) {
+                    continue;
+                }
+
+                List<int[]> Q = new ArrayList<>();
+                Q.add(new int[]{i, j});
+                visit[i][j] = 1;
+                int k = 0;
+
+                while (k < Q.size()) {
+                    int[] curr = Q.get(k);
+                    int r = curr[0];
+                    int c = curr[1];
+
+                    for (int d = 0; d < 4; d++) {
+                        int nr = r + dr[d];
+                        int nc = c + dc[d];
+                        if (0 <= nr && nr < n && 0 <= nc && nc < n && visit[nr][nc] == 0 && mat[nr][nc] == num) {
+                            Q.add(new int[]{nr, nc});
+                            visit[nr][nc] = 1;
+                        }
+                    }
+                    k++;
+                }
+                arr.add(Q);
+            }
+        }
+        return arr;
+    }
+
+    private static String hashing(List<int[]> group) {
+        int minR = 50, minC = 50;
+
+        for (int[] cell : group) {
+            minR = Math.min(minR, cell[0]);
+            minC = Math.min(minC, cell[1]);
+        }
+
+        for (int[] cell : group) {
+            cell[0] -= minR;
+            cell[1] -= minC;
+        }
+
+        group.sort(Comparator.comparingInt((int[] arr) -> arr[0]).thenComparingInt(arr -> arr[1]));
+
+        StringBuilder sb = new StringBuilder();
+        for (int[] cell : group) {
+            sb.append(cell[0]).append(cell[1]);
+        }
+
+        return sb.toString();
+    }
+
+    private static void rotate(List<int[]> shape) {
+        for (int[] cell : shape) {
+            int temp = cell[0];
+            cell[0] = cell[1];
+            cell[1] = -temp;
+        }
+    }
+
+    public static int solution(int[][] gameBoard, int[][] table) {
+        int n = gameBoard.length;
+        int[][] dr = {{0, 0, 1, -1}, {0, 0, 1, -1}};
+        int[][] dc = {{1, -1, 0, 0}, {0, 0, -1, 1}};
+        int answer = 0;
+
+        List<List<int[]>> block = finding(table, 1);
+        List<List<int[]>> blank = finding(gameBoard, 0);
+
+        List<String> blockHash = new ArrayList<>();
+        for (List<int[]> list : block) {
+            blockHash.add(hashing(list));
+        }
+
+        Map<String, Integer> temp = new HashMap<>();
+        for (String i : blockHash) {
+            temp.put(i, temp.getOrDefault(i, 0) + 1);
+        }
+        Map<String, Integer> blockMap = temp;
+
+        for (List<int[]> list : blank) {
+            for (int i = 0; i < 4; i++) {
+                rotate(list);
+                String hashBlank = hashing(list);
+
+                if (blockMap.containsKey(hashBlank) && blockMap.get(hashBlank) > 0) {
+                    blockMap.put(hashBlank, blockMap.get(hashBlank) - 1);
+                    answer += hashBlank.length() / 2;
+                    break;
+                }
+            }
+        }
+        return answer;
+    }
+}
