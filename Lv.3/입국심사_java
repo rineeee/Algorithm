@@ -1,0 +1,27 @@
+import java.util.*;
+class Solution {
+    public long solution(int n, int[] times) {
+        long max = 0;
+        for(int i = 0; i < times.length; i++) {
+            if(times[i] > max) {
+                max = times[i];
+            }
+        }
+        long start = 0;
+        long end = max*n;
+        
+        while(start<=end){
+            long mid = (start+end)/2;
+            long tmp = 0;
+            for (int time: times){
+                tmp += mid/time;
+                if (tmp>=n){
+                    break;
+                }
+            }
+            if (tmp >= n) end = mid -1;
+            else start = mid+1;
+        }
+        return start;
+    }
+}
