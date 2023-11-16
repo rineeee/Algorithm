@@ -1,0 +1,40 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int n, int[][] results) {
+        Boolean[][] score = new Boolean[n][n];
+
+        for (int[] result : results) {
+            int winner = result[0] - 1;
+            int loser = result[1] - 1;
+            score[winner][loser] = true;
+            score[loser][winner] = false;
+        }
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                for (int k = 0; k < n; k++) {
+                    if (score[i][k] == null) continue;
+                    
+                    if (score[i][k] == score[k][j]) {
+                        score[i][j] = score[i][k];
+                        score[j][i] = !score[i][k];
+                    }
+                }
+            }
+        }
+
+        int answer = 0;
+        for (int i = 0; i < n; i++) {
+            boolean determined = true;
+            for (int j = 0; j < n; j++) {
+                if (i != j && score[i][j] == null) {
+                    determined = false;
+                    break;
+                }
+            }
+            if (determined) answer++;
+        }
+        return answer;
+    }
+}
