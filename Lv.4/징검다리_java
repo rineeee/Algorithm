@@ -1,0 +1,40 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int distance, int[] rocks, int n) {
+        int answer = 0;
+        int l = 0, r = distance;
+        ArrayList<Integer> list = new ArrayList<>();
+        
+        for (int rock : rocks) {
+            list.add(rock);
+        }
+        list.add(distance);
+        Collections.sort(list);
+
+        while (l <= r) {
+            int mid = (l + r) / 2;
+            int curr = 0, remove = 0;
+            int minD = Integer.MAX_VALUE;
+
+            for (int i = 0; i < list.size(); i++) {
+                int rock = list.get(i);
+                int dis = rock - curr;
+                if (dis < mid) {
+                    remove++;
+                } else {
+                    curr = rock;
+                    minD = Math.min(minD, dis);
+                }
+            }
+            
+            if (remove > n) {
+                r = mid - 1;
+            } else {
+                answer = minD;
+                l = mid + 1;
+            }
+        }
+        return answer;
+    }
+}
