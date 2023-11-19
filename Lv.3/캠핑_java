@@ -1,0 +1,28 @@
+import java.util.*;
+
+class Solution {
+public int solution(int n, int[][] data) {
+    Arrays.sort(data, Comparator.<int[], Integer>comparing(arr -> arr[0], Comparator.naturalOrder()).thenComparingInt(arr -> arr[1]));
+    
+	int answer = 0;
+	for(int i=0; i<data.length; i++) {
+		for(int j=i+1; j<data.length; j++) {
+            if (data[i][0] == data[j][0] || data[i][1] == data[j][1]) continue;
+            boolean check = false;
+            for(int k=i+1; k<j; k++) {
+                if((data[i][0]<data[k][0] &&
+                data[k][0] <data[j][0]) &&
+                Math.min(data[i][1], data[j][1])< data[k][1] && 
+                Math.max(data[i][1], data[j][1]) > data[k][1]) {
+					check= true;
+					break;
+				}
+            }
+            if (!check){
+                answer ++;
+            }
+		}
+	}
+	return answer;
+}
+}
