@@ -2,30 +2,24 @@ import sys
 sys.setrecursionlimit(100000)
 
 def solution(n, lighthouse):
-    dp = [[0]*2 for _ in range(n)]
-    node_dict = { key : [] for key in range(n) }
-    visited = [False]*n
-    for a, b in lighthouse :
-        node_dict[a-1].append(b-1)
-        node_dict[b-1].append(a-1)
-        
-    def dfs(node) :
-        visited[node] = True
-        leaf_list = list()
-        for leaf in node_dict[node] :
-            if visited[leaf] :
-                continue
-            leaf_list.append(leaf)
-            dfs(leaf)
-
-        dp[node][0] = 0
-        dp[node][1] = 1
-
-        for leaf in leaf_list :
-            dp[node][1] += min(dp[leaf])
-            dp[node][0] += dp[leaf][1]
-        return
+    graph = [[]*(n+1) for _ in range(n+1)]
+    for a, b in lighthouse:
+        graph[a].append(b)
+        graph[b].append(a)
+    visited = [False] *(n+1)
     
-    dfs(0)
+    def dfs(start):
+        visited[start] = True
+        on, off = 1,0
+        if not graph[start]:
+            return on, off
         
-    return min(dp[0])
+        for child in graph[start]:
+            if visited[child]: continue
+            d_on, d_off = dfs(child)
+            on += min(d_on, d_off)
+            off += d_on
+        return on, off
+    
+    on, off = dfs(1)
+    return min(on, off)
