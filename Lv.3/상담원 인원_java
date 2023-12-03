@@ -1,0 +1,62 @@
+import java.util.*;
+
+class Solution {
+    int answer = Integer.MAX_VALUE;
+    HashMap<Integer, ArrayList<int[]>> hm;
+
+    public int solution(int k, int n, int[][] reqs) {
+        hm = new HashMap<>();
+        for (int[] req : reqs) {
+            int counselor = req[2] - 1;
+            if (!hm.containsKey(counselor)) {
+                hm.put(counselor, new ArrayList<>());
+            }
+            hm.get(counselor).add(new int[]{req[0], req[0] + req[1]});
+        }
+        comb(k, n, 0, 0, new int[k]);
+        return answer;
+    }
+
+    private int check(ArrayList<int[]> waitings, int n) {
+        int sum = 0;
+        PriorityQueue<Integer> q = new PriorityQueue<>();
+        for (int i = 0; i < n; i++) {
+            q.add(0);
+        }
+
+        for (int[] tmp : waitings) {
+            int start = tmp[0];
+            int duration = tmp[1];
+
+            int prevEnd = q.poll();
+            if (start > prevEnd) {
+                q.add(duration);
+            } else {
+                int wait_time = prevEnd - start;
+                sum += wait_time;
+                q.add(duration + wait_time);
+            }
+        }
+        return sum;
+    }
+
+    private void comb(int k, int n, int idx, int curSum, int[] num) {
+        if (idx == k) {
+            if (curSum == n) {
+                int sum = 0;
+                for (int i = 0; i < k; i++) {
+                    if (hm.containsKey(i)) {
+                        sum += check(hm.get(i), num[i]);
+                    }
+                }
+                answer = Math.min(sum, answer);
+            }
+            return;
+        }
+
+        for (int i = 1; i < n - k + 2; i++) {
+            num[idx] = i;
+            comb(k, n, idx + 1, curSum + i, num);
+        }
+    }
+}
