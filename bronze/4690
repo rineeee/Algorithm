@@ -1,0 +1,12 @@
+def solution():
+    list = []
+    for i in range(2, 101):
+        list.append((i,i**3))
+    for idx1, l1 in list:
+        for idx2, l2 in list[:idx1]:
+            for idx3, l3 in list[idx2-1:idx1]:
+                for idx4, l4 in list[idx3-1:idx1]:
+                    if l1 == l2+l3+l4:
+                        print(f"Cube = {idx1}, Triple = ({idx2},{idx3},{idx4})")
+
+solution()
