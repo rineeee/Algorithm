@@ -1,0 +1,15 @@
+class Main {
+    public static void main(String[] args) {
+        for (int idx1 = 2; idx1 <= 100; idx1++) {
+            for (int idx2 = 2; idx2 <= idx1; idx2++) {
+                for (int idx3 = idx2; idx3 <= idx1; idx3++) {
+                    for (int idx4 = idx3; idx4 <= idx1; idx4++) {
+                        if (Math.pow(idx1, 3) == Math.pow(idx2, 3) + Math.pow(idx3, 3) + Math.pow(idx4, 3)) {
+                            System.out.println("Cube = " + idx1 + ", Triple = (" + idx2 + "," + idx3 + "," + idx4 + ")");
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
