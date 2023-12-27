@@ -1,0 +1,31 @@
+import sys
+from collections import deque
+
+input = sys.stdin.readline
+
+def solution(n,m):
+    max_ = 100_001
+    visited = [False] * max_
+    result = [-1] * max_
+    result[n] = 0
+    q = deque()
+    q.append(n)
+    visited[n] = True
+
+    while q:
+        now = q.popleft()
+        if 0 <= now*2 < max_ and not visited[now*2]:
+            visited[now*2] = True
+            q.appendleft(now*2)
+            result[now*2] = result[now]
+
+        for next_pos in (now - 1, now + 1):
+            if 0 <= next_pos < max_ and not visited[next_pos]:
+                visited[next_pos] = True
+                q.append(next_pos)
+                result[next_pos] = result[now] + 1
+    print(result[m])
+
+n, m = map(int, input().split())
+solution(n,m)
+
