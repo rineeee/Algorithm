@@ -1,0 +1,19 @@
+import sys
+
+input = sys.stdin.readline
+
+def solution():
+    max = 10001
+    dp = [1] * max
+    for i in range(2, max):
+        dp[i] += dp[i - 2]
+    for i in range(3, max):
+        dp[i] += dp[i - 3]
+    return dp
+
+n = int(input())
+dp = solution()
+inputs = [int(input()) for _ in range(n)]
+for i in inputs:
+    print(dp[i])
+
