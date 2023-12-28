@@ -1,0 +1,41 @@
+import sys
+from collections import deque
+
+input = sys.stdin.readline
+
+def solution(n, k, belt):
+    result = 0
+    robo = deque([False]*n)
+
+    while True:
+        result += 1
+
+        # 1
+        robo.rotate(1)
+        belt.rotate(1)
+
+        robo[n-1] = False
+
+        # 2
+        for i in range(n-2,-1,-1):
+            if robo[i] and not robo[i+1] and belt[i+1] >0:
+                robo[i+1], robo[i] = True, False
+                belt[i+1] -= 1
+        robo[n-1] = False
+
+        # 3
+        if belt[0] >0:
+            robo[0] = True
+            belt[0] -=1
+
+        # 4
+        if belt.count(0) >=k:
+            return result
+
+
+
+
+n,k = map(int, input().split())
+belt = deque(list(map(int, input().split())))
+print(solution(n, k, belt))
+
