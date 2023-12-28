@@ -1,0 +1,38 @@
+import sys
+from collections import Counter
+
+input = sys.stdin.readline
+
+def solution(s, num):
+    c = Counter(s).most_common()
+    tmp = []
+    for i, j in c:
+        if j >= num:
+            tmp.append(i)
+        else:
+            break
+    if not tmp:
+        return -1, -1
+
+    r_min, r_max = 10_001, -1
+    for t in tmp:
+        t_idx = []
+        for idx in range(len(s)):
+            if s[idx] == t:
+                t_idx.append(idx)
+        for idx in range(len(t_idx) - num + 1):
+            curr = t_idx[idx+num-1] - t_idx[idx] + 1
+            r_min = min(curr, r_min)
+            r_max = max(curr, r_max)
+    return r_min, r_max
+
+n = int(input())
+for _ in range(n):
+    s = input().strip()
+    num = int(input())
+    a, b = solution(s,num)
+    if a == -1 or b == -1:
+        print(-1)
+    else:
+        print(a, b)
+
