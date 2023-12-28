@@ -1,0 +1,25 @@
+import sys
+from collections import deque
+
+input = sys.stdin.readline
+
+def solution(start, end):
+    q = deque()
+    total = len(end)
+    q.append((start, len(start)))
+    while q:
+        tmp, num = q.popleft()
+        if num == total and tmp == end:
+            return 1
+        if num+1 <= total:
+            if tmp+'A' in end or (tmp+'A')[::-1] in end:
+                q.append((tmp+'A', num+1))
+            if (tmp+'B')[::-1] in end or tmp+'B' in end:
+                q.append(((tmp+'B')[::-1], num+1))
+
+    return 0
+
+start = input().rstrip()
+end = input().rstrip()
+print(solution(start, end))
+
