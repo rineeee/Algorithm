@@ -1,0 +1,51 @@
+import sys
+from collections import deque
+
+input = sys.stdin.readline
+
+
+def solution(n,l,r,maps):
+    result = 0
+    while True:
+        visited = [[False] * n for _ in range(n)]
+        flag = False
+        for i in range(n):
+            for j in range(n):
+                if not visited[i][j]:
+                    if bfs(n,l,r,maps,i,j,visited):
+                        flag = True
+        if flag:
+            result += 1
+        if not flag:
+            print(result)
+            break
+
+def bfs(n,l,r,maps,i,j,visited):
+    tmp = []
+    q = deque()
+    q.append((i,j))
+    visited[i][j] = True
+    while q:
+        x, y = q.popleft()
+        tmp.append((x,y))
+        for dx, dy in ((0,1),(0,-1),(1,0),(-1,0)):
+            nx, ny = x+dx, y+dy
+            if 0<=nx<n and 0<=ny<n and not visited[nx][ny]:
+                if l<=abs(maps[x][y] - maps[nx][ny])<=r:
+                    visited[nx][ny] = True
+                    q.append((nx,ny))
+    if len(tmp) > 1:
+        lens = len(tmp)
+        sum_ = 0
+        for x, y in tmp:
+            sum_ += maps[x][y]
+        for x, y in tmp:
+            maps[x][y] = sum_//lens
+        return True
+    else:
+        return False
+
+n, l, r = map(int, input().split())
+maps = [list(map(int,input().split())) for _ in range(n)]
+solution(n,l,r,maps)
+
