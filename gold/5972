@@ -1,0 +1,31 @@
+import sys
+from heapq import heappush, heappop
+
+input = sys.stdin.readline
+
+
+def solution(n, m, maps):
+    h = []
+    graph = [[] for _ in range(n)]
+    dist = [float('inf') for _ in range(n)]
+    for a, b, w in maps:
+        graph[a-1].append((b-1, w))
+        graph[b-1].append((a-1, w))
+
+    heappush(h, (0, 0))
+    while h:
+        w, curr = heappop(h)
+        if dist[curr] < w:
+            continue
+        for new_, weight_ in graph[curr]:
+            if w + weight_ < dist[new_]:
+                dist[new_] = w+weight_
+                heappush(h,(w+weight_, new_))
+
+    return dist[-1]
+
+
+n, m = map(int, input().split())
+maps = [map(int, input().split()) for _ in range(m)]
+print(solution(n,m,maps))
+
