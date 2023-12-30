@@ -1,0 +1,22 @@
+import sys
+from collections import deque
+
+input = sys.stdin.readline
+
+
+def solution(n, maps):
+    answer = [0]*n
+    re_map = maps[::-1]
+    stack = [(0,re_map[0])]
+    for i in range(1,n):
+        while stack and re_map[i] > stack[-1][1]:
+            answer[stack[-1][0]] = n - i
+            stack.pop()
+        stack.append((i, re_map[i]))
+
+    return answer[::-1]
+
+n = int(input())
+maps = list(map(int,input().split()))
+print(" ".join(map(str, solution(n,maps))))
+
