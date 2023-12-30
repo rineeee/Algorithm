@@ -1,0 +1,20 @@
+import sys
+
+input = sys.stdin.readline
+
+
+def solution(n, maps):
+    l, r = 0, n-1
+    answer = [float('inf'), 0, 0] # 최소값, 숫자1, 숫자2
+    while l < r:
+        if abs(maps[l]+maps[r]) < answer[0]:
+            answer = [abs(maps[l]+maps[r]), maps[l], maps[r]]
+        if abs(maps[l+1]+maps[r]) < abs(maps[l]+maps[r-1]):
+            l += 1
+        else:
+            r -= 1
+    print(str(answer[1])+" "+str(answer[2]))
+
+n = int(input())
+maps = list(map(int, input().split()))
+solution(n, maps)
