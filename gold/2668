@@ -1,0 +1,36 @@
+import sys
+from collections import defaultdict
+
+input = sys.stdin.readline
+
+result = set()
+def dfs(v, stack, visited, number_dic):
+    for i in number_dic[v]:
+        if visited[i]:
+            while stack:
+                a = stack.pop()
+                result.add(a)
+            return
+
+        visited[i] = True
+        dfs(i, stack + [i], visited, number_dic)
+        visited[i] = False
+
+def solution(n, sets):
+    number = set()
+    number_dic= defaultdict(list)
+    for i in range(n):
+        number.add(i+1)
+        number_dic[sets[i]].append(i+1)
+
+    visited = [False] * (n+1)
+    for i in range(1, n + 1):
+        dfs(i, [], visited, number_dic)
+
+n = int(input())
+sets = []
+for i in range(n):
+    sets.append(int(input()))
+solution(n, sets)
+result = sorted(list(result))
+print(len(result),*result, sep='\n')
