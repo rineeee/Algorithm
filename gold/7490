@@ -1,0 +1,38 @@
+import sys
+from collections import deque
+input = sys.stdin.readline
+
+def solution(n):
+    q = deque()
+    q.append(('1', ['1'], 1))
+
+    while q:
+        expression, num, cnt = q.popleft()
+        if cnt == n:
+            if eval(''.join(num)) == 0:
+                print(expression)
+
+        if cnt <= n:
+            # 공백
+            tmp = num[:]
+            a = tmp.pop()
+            tmp.append(' ')
+            tmp.append(a + str(cnt+1))
+            q.append((expression + ' ' + str(cnt + 1), tmp, cnt + 1))
+            # 더하기
+            tmp = num[:]
+            tmp.append('+')
+            tmp.append(str(cnt+1))
+            q.append((expression+'+'+str(cnt+1), tmp, cnt+1))
+            # 빼기
+            tmp = num[:]
+            tmp.append('-')
+            tmp.append(str(cnt+1))
+            q.append((expression+'-'+str(cnt+1), tmp, cnt+1))
+
+n = int(input())
+
+for i in range(n):
+    solution(int(input()))
+    if i != n-1:
+        print()
