@@ -1,0 +1,23 @@
+import sys
+input = sys.stdin.readline
+
+
+n = int(input())
+seq = list(map(int, input().split()))
+seq.sort()
+count = 0
+for i in range(len(seq)):
+    target = seq[i]
+    tmp = seq[:i]+seq[i+1:]
+    l,r = 0, len(tmp)-1
+    while l < r:
+        if tmp[l]+tmp[r] == target:
+            count +=1
+            break
+
+        if tmp[l]+tmp[r] > target:
+            r -= 1
+        else:
+            l += 1
+
+print(count)
