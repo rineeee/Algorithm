@@ -1,0 +1,31 @@
+import sys
+from heapq import heappop, heappush
+input = sys.stdin.readline
+count = 0
+def solution(n, maps):
+    global count
+    h = []
+    heappush(h, (maps[0][0], 0, 0))
+    distances = [[float('inf')]*n for _ in range(n)]
+    distances[0][0] = maps[0][0]
+    while h:
+        cnt, x, y = heappop(h)
+        if x == n-1 and y == n -1:
+            print(f'Problem {count}: {distances[x][y]}')
+            break
+        for i, j in [(0,1),(0,-1),(1,0),(-1,0)]:
+            dx, dy = x+i, y+j
+            if 0<=dx<n and 0<=dy<n:
+                new_cost = cnt + maps[dx][dy]
+                if new_cost < distances[dx][dy]:
+                    distances[dx][dy] = new_cost
+                    heappush(h, [new_cost, dx, dy])
+
+
+while True:
+    n = int(input())
+    if n == 0:
+        break
+    maps = [list(map(int, input().split())) for _ in range(n)]
+    count += 1
+    solution(n, maps)
