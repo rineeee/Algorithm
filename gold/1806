@@ -1,0 +1,26 @@
+import sys
+from collections import deque
+input = sys.stdin.readline
+
+def solution(n,s,lists):
+    answer = float('inf')
+    i = 0
+    sum_ = 0
+    q = deque()
+    while i < n:
+        sum_ += lists[i]
+        q.append(lists[i])
+        i += 1
+
+        while q and sum_ >= s:
+            answer = min(answer, len(q))
+            sum_ -= q.popleft()
+
+    if answer == float('inf'):
+        print(0)
+    else:
+        print(answer)
+
+n, s = map(int, input().split())
+lists = list(map(int, input().split()))
+solution(n,s,lists)
