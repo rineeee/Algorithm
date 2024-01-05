@@ -1,0 +1,29 @@
+import sys
+from bisect import bisect_left, bisect_right
+input = sys.stdin.readline
+
+def solution(c,home):
+    answer = 0
+    l, r = 0, home[-1] - home[0]
+    while l <= r:
+        mid = (l+r)//2
+        count = 1
+        curr = home[0]
+        for i in range(1, len(home)):
+            if home[i] - curr >= mid:
+                count += 1
+                curr = home[i]
+        if count >= c:
+            answer = mid
+            l = mid + 1
+        else:
+            r = mid - 1
+    print(answer)
+
+
+n, c = map(int, input().split())
+home = []
+for i in range(n):
+    home.append(int(input()))
+
+solution(c,sorted(home))
