@@ -1,0 +1,21 @@
+import sys
+from collections import deque
+input = sys.stdin.readline
+
+def solution(string, delete):
+    stack = []
+    delete_len = len(delete)
+
+    for char in string:
+        stack.append(char)
+
+        if len(stack) >= delete_len and stack[-delete_len:] == list(delete):
+            for _ in range(delete_len):
+                stack.pop()
+
+    result = ''.join(stack)
+    return result if result else "FRULA"
+
+string = input().rstrip()
+delete = input().rstrip()
+print(solution(string, delete))
