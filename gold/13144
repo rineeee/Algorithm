@@ -1,0 +1,21 @@
+import sys
+from collections import deque
+input = sys.stdin.readline
+
+def solution(n, numbers):
+    dic = dict()
+    answer = n
+    count = 0
+    for i in range(len(numbers)):
+        if numbers[i] in dic:
+            count = min(count+1,i - dic[numbers[i]])
+        else:
+            count += 1
+        dic[numbers[i]] = i
+        answer += count - 1
+    return answer
+
+
+n = int(input())
+numbers = list(map(int, input().split()))
+print(solution(n, numbers))
