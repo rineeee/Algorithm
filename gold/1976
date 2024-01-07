@@ -1,0 +1,38 @@
+import sys
+from collections import defaultdict, deque
+input = sys.stdin.readline
+
+def solution(n,m,graph,path):
+    dic = defaultdict(set)
+    for i in range(n):
+        q = deque()
+        visited = [False] * n
+        q.append(i)
+        visited[i] = True
+        while q:
+            tmp = q.popleft()
+            dic[i].add(tmp)
+            for k in graph[tmp]:
+                if not visited[k]:
+                    visited[k] = True
+                    q.append(k)
+
+    curr = path[0] -1
+    for i in range(1,len(path)):
+        if path[i] -1 not in dic[curr]:
+            return "NO"
+        curr = path[i] -1
+    return "YES"
+
+
+n = int(input())
+m = int(input())
+graph = defaultdict(list)
+
+for i in range(n):
+    tmp = list(map(int, input().split()))
+    for j in range(n):
+        if tmp[j] == 1:
+            graph[i].append(j)
+path = list(map(int, input().split()))
+print(solution(n,m,graph,path))
