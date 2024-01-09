@@ -1,0 +1,39 @@
+import sys
+from heapq import heappop, heappush
+input = sys.stdin.readline
+
+def solution(n, x, graph):
+    dic = {i: [] for i in range(n+1)}
+    for i in range(1,n+1):
+        h = []
+        distance = [float('inf')] * (n + 1)
+        heappush(h,(0, i))
+        distance[i] = 0
+        while h:
+            dist, curr = heappop(h)
+            if distance[curr] < dist:
+                continue
+            for b, c in graph[curr]:
+                cost = dist + c
+                if cost < distance[b]:
+                    distance[b] = cost
+                    heappush(h, (cost, b))
+        dic[i] = distance
+    ans = -1
+    for i in range(1,n+1):
+        if i == x:
+            continue
+        ans = max(dic[i][x]+dic[x][i], ans)
+    print(ans)
+
+
+n, m, x = map(int, input().split())
+
+graph = [[] for i in range(n+1)]
+for _ in range(m):
+    a,b,c = map(int, input().split())
+    graph[a].append((b,c))
+
+solution(n,x,graph)
+
+
