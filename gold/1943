@@ -1,0 +1,32 @@
+import sys
+from collections import deque
+input = sys.stdin.readline
+
+def solution(n,coin_list):
+    target_value = sum([c[0]*c[1] for c in coin_list])
+    if target_value % 2:
+        return 0
+    target_value //= 2
+
+    q = deque([0])
+    for i in range(n):
+        next_q = deque()
+        visited = [False] * (target_value+1)
+        coin, cnt = coin_list[i]
+        while q:
+            curr = q.popleft()
+            for j in range(curr, curr+coin*cnt+1, coin):
+                if j > target_value:
+                    continue
+                if j == target_value:
+                    return 1
+                if not visited[j]:
+                    visited[j] = True
+                    next_q.append(j)
+        q = next_q
+    return 0
+
+for _ in range(3):
+    n = int(input())
+    coin = [list(map(int, input().split())) for _ in range(n)]
+    print(solution(n,coin))
