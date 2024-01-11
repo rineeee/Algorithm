@@ -1,0 +1,47 @@
+import java.io.BufferedReader;
+
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+
+import static java.util.stream.Collectors.toList;
+
+class Main {
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(st.nextToken());
+        int a = Integer.parseInt(st.nextToken());
+        int b = Integer.parseInt(st.nextToken());
+
+        solution(n,a,b);
+    }
+
+    static void solution(int n, int a, int b){
+        Deque<Integer> q = new LinkedList<>();
+        int max_ = Math.max(a,b);
+        for (int i =1; i<a; i++){
+            q.add(i);
+        }
+        q.add(max_);
+        for (int i = b-1; i>0;i--){
+            q.add(i);
+        }
+
+        if (q.size() > n){
+            System.out.println(-1);
+            return;
+        }
+
+        int first = q.poll();
+        int qSize = q.size();
+        for(int i=1;i<=n-qSize-1;i++) {
+            q.addFirst(1);
+        }
+        q.addFirst(first);
+        for (int i = 1; i <= n; i++) {
+            System.out.print(q.pollFirst() + " ");
+        }
+    }
+}
