@@ -1,0 +1,44 @@
+import sys
+from collections import deque
+input = sys.stdin.readline
+
+def solution(n,a,b):
+    at_least = []
+    if a >= b:
+        for i in range(a):
+            at_least.append(i+1)
+        tmp = []
+        for i in range(b-1):
+            tmp.append(i+1)
+        at_least.extend(tmp[::-1])
+        q = deque(at_least)
+        if len(q) > n:
+            print(-1)
+        elif len(q) == n:
+            print(*list(q))
+        else:
+            while len(q) < n:
+                q.appendleft(1)
+            print(*list(q))
+    else:
+        tmp = []
+        for i in range(b):
+            tmp.append(i + 1)
+        for i in range(a-1):
+            at_least.append(i+1)
+        at_least.extend(tmp[::-1])
+        q = deque(at_least)
+        if len(q) > n:
+            print(-1)
+        elif len(q) == n:
+            print(*list(q))
+        else:
+            first = q.popleft()
+            while len(q) < n - 1:
+                q.appendleft(1)
+            q.appendleft(first)
+            print(*list(q))
+
+
+n, a, b = map(int, input().split())
+solution(n,a,b)
