@@ -1,0 +1,32 @@
+import sys
+input = sys.stdin.readline
+
+def find(root, a):
+    if root[a] != a:
+        root[a] = find(root, root[a])
+    return root[a]
+
+def union(root, a, b):
+    ta = find(root,a)
+    tb = find(root,b)
+    if ta<tb:
+        root[tb] =ta
+    else:
+        root[ta] = tb
+
+def solution(v,e,graph):
+    graph.sort()
+    root = {i : i for i in range(1, v+1)}
+    ans = 0
+    for c, a, b in graph:
+        if find(root, a) != find(root, b):
+            union(root, a, b)
+            ans += c
+    print(ans)
+
+v, e = map(int, input().split())
+graph = []
+for _ in range(e):
+    a, b, c = map(int, input().split())
+    graph.append((c,a,b))
+solution(v,e,graph)
