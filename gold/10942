@@ -1,0 +1,24 @@
+import sys
+input = sys.stdin.readline
+
+def solution(check, p, n):
+    for length in range(n):
+        for start in range(n-length):
+            end = start + length
+            # 한글자
+            if start == end:
+                check[start][end] = 1
+            elif p[start] == p[end]:
+                if length == 1:
+                    check[start][end] = 1
+                elif check[start+1][end-1] == 1:
+                    check[start][end] = 1
+
+n = int(input())
+p = list(map(int, input().split()))
+m = int(input())
+check = [[0] * n for _ in range(n)]
+solution(check, p, n)
+for _ in range(m):
+    a, b = map(int, input().split())
+    print(check[a-1][b-1])
