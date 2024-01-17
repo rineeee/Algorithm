@@ -1,0 +1,24 @@
+import sys
+from collections import deque
+input = sys.stdin.readline
+
+
+def solution(n,m,activate,c):
+    answer = float('inf')
+    sum_c = sum(c) +1
+    dp= [[0]*(sum_c) for _ in range(n+1)]
+    for i in range(1,n+1):
+        ai, ci = activate[i], c[i]
+        for j in range(sum_c):
+            dp[i][j] = dp[i-1][j]
+        for j in range(ci, sum_c):
+            dp[i][j] = max(dp[i][j], dp[i-1][j-ci] + ai)
+            if dp[i][j] >= m:
+                answer = min(answer, j)
+    return answer
+
+
+n, m = map(int, input().split())
+activate = [0] + list(map(int, input().split()))
+c = [0] + list(map(int, input().split()))
+print(solution(n,m,activate,c))
