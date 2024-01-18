@@ -1,0 +1,28 @@
+import sys
+input = sys.stdin.readline
+
+
+def dfs(x, result):
+    visited[x] = True
+    cycle.append(x)
+    number = w[x]
+
+    if visited[number]:
+        if number in cycle:
+            result += cycle[cycle.index(number):]
+        return
+    else:
+        dfs(number, result)
+
+t = int(input())
+for _ in range(t):
+    result = 0
+    n = int(input())
+    visited = [False] * (n+1)
+    w = [0] + list(map(int, input().split()))
+    result = []
+    for i in range(1,n+1):
+        if not visited[i]:
+            cycle = []
+            dfs(i, result)
+    print(n-len(result))
