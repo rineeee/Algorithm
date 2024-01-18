@@ -1,0 +1,17 @@
+import sys
+from bisect import bisect_left
+input = sys.stdin.readline
+def solution(n, lists):
+    dp = [lists[0]]
+
+    for i in range(n):
+        if dp[-1] < lists[i]:
+            dp.append(lists[i])
+        else:
+            dp[bisect_left(dp, lists[i])] = lists[i]
+    return len(dp)
+
+
+n = int(input())
+lists = list(map(int, input().split()))
+print(solution(n, lists))
