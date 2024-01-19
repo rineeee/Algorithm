@@ -1,0 +1,32 @@
+import sys
+from itertools import combinations
+from bisect import bisect_left, bisect_right
+input = sys.stdin.readline
+
+def get_num(arr, x):
+    return bisect_right(arr, x) - bisect_left(arr, x)
+
+def get_sum(arr):
+    result = []
+    for i in range(1, len(arr)+1):
+        for c in combinations(arr, i):
+            result.append(sum(c))
+    return sorted(result)
+
+def solution(n, s, arr):
+    answer = 0
+    left_arr, right_arr = arr[:n//2], arr[n//2:]
+    left_sum, right_sum = get_sum(left_arr), get_sum(right_arr)
+
+    for l in left_sum:
+        target = s - l
+        answer += get_num(right_sum, target)
+
+    answer += get_num(left_sum, s)
+    answer += get_num(right_sum, s)
+    print(answer)
+
+
+n, s = map(int, input().split())
+arr = list(map(int, input().split()))
+solution(n,s,sorted(arr))
