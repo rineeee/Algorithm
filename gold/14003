@@ -1,0 +1,27 @@
+import sys
+from bisect import bisect_left
+input = sys.stdin.readline
+
+def solution(n, arr):
+    dp = [-float('inf')]
+    store = []
+    for i in range(n):
+        if dp[-1] < arr[i]:
+            dp.append(arr[i])
+            store.append((len(dp)-1, arr[i]))
+        else:
+            tmp = bisect_left(arr, arr[i])
+            dp[tmp] = arr[i]
+            store.append((tmp, i))
+    index = len(dp) - 1
+    result = []
+    print(index)
+    for i in range(n-1, -1, -1):
+        if store[i][0] == index:
+            result.append(store[i][1])
+            index -=1
+    print(*result[::-1])
+
+n = int(input())
+arr = list(map(int, input().split()))
+solution(n,arr)
