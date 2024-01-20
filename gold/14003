@@ -10,9 +10,9 @@ def solution(n, arr):
             dp.append(arr[i])
             store.append((len(dp)-1, arr[i]))
         else:
-            tmp = bisect_left(arr, arr[i])
+            tmp = bisect_left(dp, arr[i])
             dp[tmp] = arr[i]
-            store.append((tmp, i))
+            store.append((tmp, arr[i]))
     index = len(dp) - 1
     result = []
     print(index)
