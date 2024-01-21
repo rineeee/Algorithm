@@ -39,11 +39,10 @@ public class Main {
             return dp[now][visited];
         }
 
-        for (int next=1; next<n; next++){
-            if (w[now][next] == 0 || (visited & (1<<next)) != 0){
-                continue;
+        for (int next=0; next<n; next++){
+            if (w[now][next] != 0 && (visited & (1<<next)) == 0){
+                dp[now][visited] = Math.min(dp[now][visited], dfs(next, visited | (1<<next)) + w[now][next]);
             }
-            dp[now][visited] = Math.min(dp[now][visited], dfs(next, visited | (1<<next)) + w[now][next]);
         }
         return dp[now][visited];
     }
