@@ -1,0 +1,51 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+public class Main {
+
+    public static int[][] dp;
+    public static int[][] w;
+    public static int n;
+    static final int INF = 11000000;
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        n = Integer.parseInt(br.readLine());
+        w = new int[n][n];
+        for (int i =0; i<n; i++){
+            String[] input = br.readLine().split(" ");
+            for (int j=0; j<n; j++){
+                w[i][j] = Integer.parseInt(input[j]);
+            }
+        }
+        dp = new int[n][(1 << n) - 1];
+        for (int i =0; i<n; i++){
+            Arrays.fill(dp[i], INF);
+        }
+        System.out.println(dfs(0,1));
+
+    }
+    public static int dfs(int now, int visited){
+        if (visited == (1<<n)-1){
+            if (w[now][0] != 0){
+                return w[now][0];
+            }
+            return INF;
+        }
+
+        if (dp[now][visited] != INF){
+            return dp[now][visited];
+        }
+
+        for (int next=1; next<n; next++){
+            if (w[now][next] == 0 || (visited & (1<<next)) != 0){
+                continue;
+            }
+            dp[now][visited] = Math.min(dp[now][visited], dfs(next, visited | (1<<next)) + w[now][next]);
+        }
+        return dp[now][visited];
+    }
+
+}
