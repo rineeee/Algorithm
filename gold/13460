@@ -1,0 +1,53 @@
+import sys
+from collections import deque
+input = sys.stdin.readline
+
+def move(board, x, y, dx, dy):
+    count = 0
+    while board[x+dx][y+dy] != '#' and board[x][y] != 'O':
+        x += dx
+        y += dy
+        count += 1
+    return x, y, count
+
+def solution(n,m,board):
+    visited = []
+    q = deque()
+    g_x, g_y = 0, 0
+    r_x, r_y, b_x, b_y = 0, 0, 0, 0
+    for i in range(n):
+        for j in range(m):
+            if board[i][j] == "R":
+                r_x, r_y = i, j
+            elif board[i][j] == "B":
+                b_x, b_y = i, j
+            elif board[i][j] == "O":
+                g_x, g_y = i, j
+    visited.append([r_x,r_y,b_x,b_y])
+    q.append((r_x,r_y,b_x,b_y,1))
+    while q:
+        r_x,r_y,b_x,b_y,cnt = q.popleft()
+        if cnt > 10:
+            break
+        for dx, dy in [(0,1),(0,-1),(1,0),(-1,0)]:
+            n_rx, n_ry, r_count = move(board, r_x,r_y,dx,dy)
+            n_bx, n_by, b_count = move(board, b_x,b_y,dx,dy)
+            if n_bx == g_x and n_by == g_y:
+                continue
+            if n_rx == g_x and n_ry == g_y:
+                return cnt
+            if n_rx==n_bx and n_ry==n_by:
+                if r_count > b_count:
+                    n_rx -= dx
+                    n_ry -= dy
+                else:
+                    n_bx -= dx
+                    n_by -= dy
+            if [n_rx, n_ry, n_bx, n_by] not in visited:
+                visited.append([n_rx, n_ry, n_bx, n_by])
+                q.append((n_rx, n_ry, n_bx, n_by, cnt+1))
+    return -1
+
+n, m = map(int, input().split())
+board = [list(input()) for _ in range(n)]
+print(solution(n,m,board))
