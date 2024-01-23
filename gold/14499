@@ -1,0 +1,48 @@
+import sys
+input = sys.stdin.readline
+
+def possible(x,y,dx,dy,n,m):
+    if 0<=x+dx<n and 0<=y+dy<m:
+        return True
+    return False
+
+def rule(dice, board, x, y):
+    if board[x][y] == 0:
+        board[x][y] = dice[0]
+    else:
+        dice[0] = board[x][y]
+        board[x][y] = 0
+
+def solution(n,m,x,y,k,board,order):
+    nx, ny = x, y
+    dice = [0,0,0,0,0,0]
+    for o in order:
+        if o == 1:
+            if possible(nx,ny,0,1,n,m):
+                ny += 1
+                dice = [dice[2],dice[1],dice[5],dice[0],dice[4],dice[3]]
+                rule(dice,board,nx,ny)
+                print(dice[5])
+        elif o == 2:
+            if possible(nx,ny,0,-1,n,m):
+                ny -= 1
+                dice = [dice[3], dice[1], dice[0], dice[5], dice[4], dice[2]]
+                rule(dice, board, nx, ny)
+                print(dice[5])
+        elif o == 3:
+            if possible(nx,ny,-1,0,n,m):
+                nx -= 1
+                dice = [dice[4], dice[0], dice[2], dice[3], dice[5], dice[1]]
+                rule(dice, board, nx, ny)
+                print(dice[5])
+        elif o == 4:
+            if possible(nx,ny,1,0,n,m):
+                nx += 1
+                dice = [dice[1], dice[5], dice[2], dice[3], dice[0], dice[4]]
+                rule(dice, board, nx, ny)
+                print(dice[5])
+
+n, m, x, y, k = map(int, input().split())
+board = [list(map(int, input().split())) for _ in range(n)]
+order = list(map(int, input().split()))
+solution(n,m,x,y,k,board,order)
