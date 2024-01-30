@@ -9,10 +9,10 @@
 ### 순서
 
 프로그래머스
-- 01. level1
-- 02. level2
-- 03. level3
-- 04. level4
+- 01. Lv.1
+- 02. Lv.2
+- 03. Lv.3
+- 04. Lv.4
 
     
 leetcode
@@ -25,7 +25,7 @@ leetcode
 
 
 소프티어
-- 01. Lv.3
+- 01. level3
 
 [전공] CodingBootcamp
 - 코딩테스트 과목 시험 연습
