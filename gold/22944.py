@@ -1,6 +1,3 @@
-import sys
-input = sys.stdin.readline
-
 from collections import deque
 n, h, d = map(int, input().split())
 grid = [list(str(input())) for _ in range(n)]
@@ -22,16 +19,17 @@ def to_safety_zone():
             if 0 <= ny < n and 0 <= nx < n:
                 if grid[ny][nx] == 'E':
                     return cnt+1
+                nxt_h, nxt_d = cur_h, cur_d
                 if grid[ny][nx] == 'U':
-                    cur_d = d
-                if cur_d:
-                    cur_d -= 1
+                    nxt_d = d
+                if nxt_d:
+                    nxt_d -= 1
                 else:
-                    cur_h -= 1
-                if not cur_h:
+                    nxt_h -= 1
+                if not nxt_h:
                     continue
-                if visited[ny][nx] < cur_h:
-                    visited[ny][nx] = cur_h
-                    q.append((ny, nx, cur_h, cur_d, cnt+1))
+                if visited[ny][nx] < nxt_h:
+                    visited[ny][nx] = nxt_h
+                    q.append((ny, nx, nxt_h, nxt_d, cnt+1))
     return -1
 print(to_safety_zone())
