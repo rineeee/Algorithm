@@ -24,9 +24,11 @@ public class Main {
                 while(start < end){
                     if(start == i || start == j){
                         start ++;
+                        continue;
                     }
                     if(end == i || end == j){
                         end --;
+                        continue;
                     }
                     int sum2 = arr[start] + arr[end];
                     answer = Math.min(answer, Math.abs(sum1-sum2));
