@@ -1,20 +1,19 @@
 from collections import defaultdict
-def solution(genres, plays):
-    answer = []
-    play_count = defaultdict(int)
-    many_play = defaultdict(list)
-    
-    i = 0
-    for genre, play in zip(genres,plays):
-        play_count[genre] += play
-        many_play[genre].append((play,i))
-        i += 1
 
-    play_count = sorted(play_count.items(), key = lambda x: -x[1])
-    for i in play_count:
-        many_play[i[0]].sort(key = lambda x: (-x[0], x[1]))
-        for a,b in many_play[i[0]][:2]:
-            answer.append(b)
+def solution(genres, plays):
+    f = defaultdict(int)
+    s = defaultdict(list)
+    idx = 0
+    for g, p in zip(genres, plays):
+        f[g] += p
+        s[g].append([p, idx])
+        idx+=1
+    f = sorted(f.items(), key= lambda x:-x[1])
+    answer = []
+    for g, _ in f:
+        tmp = sorted(s[g], key = lambda x: (-x[0], x[1]))[:2]
+        for _, i in tmp:
+            answer.append(i)
     return answer
         
     
