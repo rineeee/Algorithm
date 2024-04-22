@@ -1,28 +1,37 @@
 import java.util.*;
 
 class Solution {
+    class Node implements Comparable<Node>{
+        int start, end;
+        public Node(int start, int end){
+            this.start = start;
+            this.end = end;
+        }
+        @Override
+        public int compareTo(Node o){
+            return this.end - o.end;
+        }
+    }
     public int solution(int[][] jobs) {
+        PriorityQueue<Node> q = new PriorityQueue<>();
+        int start = -1, now = 0;
         int answer = 0;
-        int i = 0;
-        int now = 0;
-        int start = -1;
-            
-        PriorityQueue<int[]> pq = new PriorityQueue<>((o1,o2) -> o1[1] - o2[1]);
-        while(i < jobs.length) {
-            for(int j=0; j<jobs.length; j++){
-                if(start<jobs[j][0] && jobs[j][0]<=now){
-                    pq.add(jobs[j]);
+        int num = 0;
+        
+        while (num < jobs.length){
+            for (int i=0; i<jobs.length; i++){
+                if (start < jobs[i][0] && jobs[i][0] <= now){
+                    q.add(new Node(jobs[i][0], jobs[i][1]));
                 }
             }
-            
-            if(!pq.isEmpty()){
-                int[] job = pq.poll();
+            if(!q.isEmpty()){
+                Node n = q.poll();
                 start = now;
-                now += job[1];
-                answer += now - job[0];
-                i += 1;
+                now += n.end;
+                answer += now - n.start;
+                num += 1;
             }else{
-                now +=1;
+                now += 1;
             }
         }
         return answer/jobs.length;
